@@ -8,6 +8,8 @@ import java.io.*;
 
 public class TCPServer {
     public static void main(String args[]) {
+        new GuiApp();
+
         try {
             int serverPort = 20000;
             ServerSocket listenSocket = new ServerSocket(serverPort);
@@ -24,6 +26,8 @@ public class TCPServer {
         } catch (IOException e) {
             System.out.println("Listen :" + e.getMessage());
         }
+
+
     }
 }
 
@@ -93,9 +97,9 @@ class Connection extends Thread {
             //  String data = input.readUTF();
 
 
-            sendToOneClient("t");
+                    sendToOneClient("t");
             readFromClient();
-            sendToOneClient("999");
+            sendToOneClient("65");
             readFromClient();
 
           //  System.out.println("waiting for file");
