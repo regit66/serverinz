@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class GuiApp extends JFrame  {
+public class GuiApp extends JFrame {
 
     private JPanel panelMain;
     private JButton button1;
@@ -11,26 +11,49 @@ public class GuiApp extends JFrame  {
     private JButton button5;
     private JButton ustawButton;
     private JButton wybierzButton;
-    private JLabel speed;
     private JTextField textField1;
     private JRadioButton a1RadioButton;
     private JRadioButton a4RadioButton;
     private JRadioButton a3RadioButton;
     private JRadioButton a2RadioButton;
+    private JPanel vid1;
+    private JPanel vid2;
+    private JPanel vid3;
+    private JPanel vid4;
+    private PlayerPanel v1, v2, v3, v4;
 
-    public  GuiApp()
-    {
-        setContentPane(panelMain);
+
+    private PlayerPanel pole, player2;
+
+    public GuiApp() {
+       // setDefaultCloseOperation(this.EXIT_ON_CLOSE);
         setInitialSize();
         decorateFrame();
+
+        setContentPane(panelMain);
+        vid1.setLayout(new BorderLayout());
+        vid1.add(v1 = new PlayerPanel());
+        vid2.setLayout(new BorderLayout());
+        vid2.add(v2 = new PlayerPanel());
+        vid3.setLayout(new BorderLayout());
+        vid3.add(v3 = new PlayerPanel());
+        vid4.setLayout(new BorderLayout());
+        vid4.add(v4 = new PlayerPanel());
+        //pack();
+
         setVisible(true);
+
+        v1.play("http://www.quirksmode.org/html5/videos/big_buck_bunny.mp4");
+        v2.play("http://vjs.zencdn.net/v/oceans.mp4");
+        v3.play("http://vjs.zencdn.net/v/oceans.mp4");
+        v4.play("http://vjs.zencdn.net/v/oceans.mp4");
     }
+
 
     /**
      * Sets initial size on startup
      */
-    private void setInitialSize()
-    {
+    private void setInitialSize() {
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         final int screenWidth = (int) screenSize.getWidth();
         final int screenHeight = (int) screenSize.getHeight();
@@ -43,9 +66,11 @@ public class GuiApp extends JFrame  {
     /**
      * Set title and icon
      */
-    private void decorateFrame()
-    {
+    private void decorateFrame() {
         setTitle("Khepera IV control panel");
-        //    setIconImage(this.applicationIcon);
+        setIconImage(Toolkit.getDefaultToolkit().getImage("logo.png"));
     }
+
+
+
 }

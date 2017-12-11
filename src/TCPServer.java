@@ -8,7 +8,8 @@ import java.io.*;
 
 public class TCPServer {
     public static void main(String args[]) {
-        new GuiApp();
+       new GuiApp();
+  //   new VideoPlayer();
 
         try {
             int serverPort = 20000;
