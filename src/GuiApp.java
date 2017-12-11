@@ -99,6 +99,6 @@ public class GuiApp extends JFrame {
      */
     private void decorateFrame() {
         setTitle("Khepera IV control panel");
-        setIconImage(Toolkit.getDefaultToolkit().getImage("logo.png"));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("image/logo.png")));
     }
 }
