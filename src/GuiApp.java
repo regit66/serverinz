@@ -20,16 +20,23 @@ public class GuiApp extends JFrame {
     private JPanel vid2;
     private JPanel vid3;
     private JPanel vid4;
+    private JButton button6;
+    private JButton a270Button;
+    private JButton a90Button;
+    private JButton a180Button;
+    private JButton a360Button;
     private PlayerPanel v1, v2, v3, v4;
 
 
     private PlayerPanel pole, player2;
+    private MenuFactory menuFactory;
 
     public GuiApp() {
        // setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+
         setInitialSize();
         decorateFrame();
-
+        createMenuBar();
         setContentPane(panelMain);
         vid1.setLayout(new BorderLayout());
         vid1.add(v1 = new PlayerPanel());
@@ -49,6 +56,30 @@ public class GuiApp extends JFrame {
         v4.play("http://vjs.zencdn.net/v/oceans.mp4");
     }
 
+    /**
+     * @return the menu factory instance
+     */
+    private MenuFactory getMenuFactory()
+    {
+        if (this.menuFactory == null)
+        {
+            menuFactory = new MenuFactory();
+        }
+        return this.menuFactory;
+    }
+
+    /**
+     * Creates menu bar
+     */
+    private void createMenuBar()
+    {
+
+       final JMenuBar menuBar = new JMenuBar();
+       final MenuFactory menuFactory = getMenuFactory();
+       menuBar.add(menuFactory.getHelpMenu(this));
+       setJMenuBar(menuBar);
+
+    }
 
     /**
      * Sets initial size on startup
@@ -70,7 +101,4 @@ public class GuiApp extends JFrame {
         setTitle("Khepera IV control panel");
         setIconImage(Toolkit.getDefaultToolkit().getImage("logo.png"));
     }
-
-
-
 }
