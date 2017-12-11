@@ -10,7 +10,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://E:/vlcj-3.0.1.jar!/" />
+          <root url="jar://vlcj-3.0.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -19,11 +19,13 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://E:/jna-3.1.0.jar!/" />
+          <root url="jar://jna-3.1.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="jna-3.1.0" level="project" />
+    <orderEntry type="library" name="vlcj-3.0.1" level="project" />
   </component>
 </module>

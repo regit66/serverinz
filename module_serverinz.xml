@@ -23,22 +23,22 @@
   
   <path id="serverinz.runtime.production.module.classpath">
     <pathelement location="${serverinz.output.dir}"/>
-    <pathelement location="E:/vlcj-3.0.1.jar"/>
-    <pathelement location="E:/jna-3.1.0.jar"/>
+    <pathelement location="vlcj-3.0.1.jar"/>
+    <pathelement location="jna-3.1.0.jar"/>
   </path>
   
   <path id="serverinz.module.classpath">
     <path refid="${module.jdk.classpath.serverinz}"/>
     <pathelement location="${serverinz.output.dir}"/>
-    <pathelement location="E:/vlcj-3.0.1.jar"/>
-    <pathelement location="E:/jna-3.1.0.jar"/>
+    <pathelement location="vlcj-3.0.1.jar"/>
+    <pathelement location="jna-3.1.0.jar"/>
   </path>
   
   <path id="serverinz.runtime.module.classpath">
     <pathelement location="${serverinz.testoutput.dir}"/>
     <pathelement location="${serverinz.output.dir}"/>
-    <pathelement location="E:/vlcj-3.0.1.jar"/>
-    <pathelement location="E:/jna-3.1.0.jar"/>
+    <pathelement location="vlcj-3.0.1.jar"/>
+    <pathelement location="jna-3.1.0.jar"/>
   </path>
   
   
