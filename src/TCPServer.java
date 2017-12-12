@@ -79,7 +79,7 @@ gui.getConnection().setVisible(false);
         }
     }
 
-    public void readFromClient() {
+    public void readFromClient(Client cc) {
 
         int red = -1;
         byte[] buffer = new byte[5 * 1024]; // a read buffer of 5KiB
@@ -88,7 +88,19 @@ gui.getConnection().setVisible(false);
         String redDataText;
         try {
             red = clientSocket.getInputStream().read(buffer);
-            redData = new byte[red];
+
+
+
+            if (red==-1)
+            {
+                cc.setConnected(false);
+                return;
+            }
+    redData = new byte[red];
+
+
+
+            //wyjatek
             System.arraycopy(buffer, 0, redData, 0, red);
             redDataText = new String(redData, "UTF-8"); // assumption that client sends data UTF-8 encoded
             System.out.println("Client :" + redDataText);
@@ -96,6 +108,13 @@ gui.getConnection().setVisible(false);
 
         } catch (IOException | NegativeArraySizeException e) {
             System.out.println("error");
+
+
+
+
+
+            removeClient();
+
         try {
             clientSocket.close();
         } catch (IOException e1) {
@@ -113,7 +132,8 @@ gui.getConnection().setVisible(false);
 
     public synchronized void removeClient()
     {
-        System.out.println(cc.isConnected());
+        cc.setConnected(false);
+      //  System.out.println(cc.isConnected());
 ///////////
 
         Iterator<Client> i = clientList.iterator();
@@ -126,7 +146,7 @@ gui.getConnection().setVisible(false);
 
         ///////////////    if (client.getPort() == port)
 
-        System.out.print("dadsadasdsadsa"+ clientList.size());
+        //System.out.print("dadsadasdsadsa"+ clientList.size());
         gui.changeconnectionIcon(jlabel,jRadioButton,cc,clientList);
     }
 
@@ -157,7 +177,11 @@ gui.getConnection().setVisible(false);
 
 
             sendToOneClient("t");
-            readFromClient();
+
+
+
+            readFromClient(cc);
+
             //////////
 
             //  try { // an echo server
@@ -197,11 +221,14 @@ gui.getConnection().setVisible(false);
 
 */
 
-            if (clientSocket.isClosed() || !clientSocket.isConnected()) {
+           /// if (clientSocket.isClosed() || !clientSocket.isConnected()) {
 
 
                 System.out.println("Client disconnect");
-            }
+                removeClient();
+                stop();
+
+           // }
 
 
         }

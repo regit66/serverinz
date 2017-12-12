@@ -106,7 +106,7 @@ if (client.isConnected()) {
     IconPanel.add(icon);
 
 
-    jRadioButton.setText("Robot: "+ client.getClientNr());
+    jRadioButton.setText("Robot: "+ client.getIp());
     icon.setIcon(imgThisImg);
 }
 else
