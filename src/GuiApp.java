@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-
+import java.util.List;
 public class GuiApp extends JFrame {
 
     private JPanel panelMain;
@@ -13,10 +13,6 @@ public class GuiApp extends JFrame {
     private JButton ustawButton;
     private JButton wybierzButton;
     private JTextField textField1;
-    private JRadioButton a1RadioButton;
-    private JRadioButton a4RadioButton;
-    private JRadioButton a3RadioButton;
-    private JRadioButton a2RadioButton;
     private JPanel vid1;
     private JPanel vid2;
     private JPanel vid3;
@@ -27,27 +23,23 @@ public class GuiApp extends JFrame {
     private JButton a180Button;
     private JButton a360Button;
     private JPanel IconPanel;
-    private JLabel ConnectedIcon1;
-    private JLabel ConnectedIcon2;
-    private JLabel ConnectedIcon3;
-    private JLabel ConnectedIcon4;
+    private JLabel Connection;
     private PlayerPanel v1, v2, v3, v4;
+    private Client c;
+   private List<Client> clientList;
     ArrayList<JLabel> listofLabels = new ArrayList<JLabel>(100);
 
-    private PlayerPanel pole, player2;
+
     private MenuFactory menuFactory;
 
     public GuiApp() {
         setDefaultCloseOperation(this.EXIT_ON_CLOSE);
-        listofLabels.add(ConnectedIcon1);
-        listofLabels.add(ConnectedIcon2);
-        listofLabels.add(ConnectedIcon3);
-        listofLabels.add(ConnectedIcon4);
+
         setInitialSize();
         decorateFrame();
         createMenuBar();
         setContentPane(panelMain);
-        IconPanel.setLayout(new GridLayout());
+        IconPanel.setLayout(new BoxLayout(IconPanel, BoxLayout.PAGE_AXIS));
         vid1.setLayout(new BorderLayout());
         vid1.add(v1 = new PlayerPanel());
         vid2.setLayout(new BorderLayout());
@@ -78,6 +70,19 @@ public class GuiApp extends JFrame {
         return this.menuFactory;
     }
 
+    public JButton getWybierzButton() {
+        return wybierzButton;
+    }
+
+    public void setWybierzButton(JButton wybierzButton) {
+        this.wybierzButton = wybierzButton;
+    }
+
+    public JLabel getConnection() {
+
+        return Connection;
+    }
+
     /**
      * Creates menu bar
      */
@@ -87,17 +92,41 @@ public class GuiApp extends JFrame {
        final JMenuBar menuBar = new JMenuBar();
        final MenuFactory menuFactory = getMenuFactory();
        menuBar.add(menuFactory.getHelpMenu(this));
+
        setJMenuBar(menuBar);
 
     }
 
-    public void changeconnectionIcon ( JLabel icon)
+    public void changeconnectionIcon ( JLabel icon, JRadioButton jRadioButton,Client client, List<Client> clientList)
     {
 
+if (client.isConnected()) {
+    ImageIcon imgThisImg = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("image/connected-256.png")));
+    IconPanel.add(jRadioButton);
+    IconPanel.add(icon);
 
-        ImageIcon imgThisImg = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("image/connected-256.png")));
-        IconPanel.add(icon);
-        icon.setIcon(imgThisImg);
+
+    jRadioButton.setText("Robot: "+ client.getClientNr());
+    icon.setIcon(imgThisImg);
+}
+else
+{
+    //icon.setIcon(imgThisImg);
+    jRadioButton.setVisible(false);
+    icon.setVisible(false);
+    IconPanel.repaint();
+
+
+    if (clientList.size()==0)
+    {
+        //ImageIcon imgThisImg = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("image/disconnected-256.png")));
+        getConnection().setVisible(true);
+        getWybierzButton().setVisible(false);
+        IconPanel.repaint();
+    }
+
+}
+
     }
     /**
      * Sets initial size on startup

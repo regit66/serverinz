@@ -17,13 +17,25 @@ public class Client {
         return port;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "ip='" + ip + '\'' +
+                ", clientNr=" + clientNr +
+                ", port=" + port +
+                ", name='" + name + '\'' +
+                ", connected=" + connected +
+                '}'+ "\n";
+    }
+
     public void setPort(int port) {
         this.port = port;
     }
 
-    public String getName() {
-        return name;
-    }
 
     public void setName(String name) {
         this.name = name;
@@ -40,16 +52,6 @@ public class Client {
     private String name;
     private boolean connected=false;
 
-
-    @Override
-    public String toString() {
-        return "Client{" +
-                "ip='" + ip + '\'' +
-                ", clientNr=" + clientNr +
-                ", port=" + port +
-                ", name='" + name + '\'' +
-                '}';
-    }
 
     public Client(String ip, int port, String name, int clientNr, boolean connected) {
         this.ip = ip;
