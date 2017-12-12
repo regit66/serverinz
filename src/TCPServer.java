@@ -2,13 +2,20 @@
 // A server program implementing TCP socket
 
 
-import java.net.*;
+import javax.swing.*;
 import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class TCPServer {
+
     public static void main(String args[]) {
-       new GuiApp();
+        List<Client> clientList = new ArrayList<Client>();
+       GuiApp gui=new GuiApp();
+
   //   new VideoPlayer();
 
         try {
@@ -21,7 +28,18 @@ public class TCPServer {
                 Socket clientSocket = listenSocket.accept();
                 System.out.println("Client connect" + clientSocket.getLocalAddress());
                 System.out.println("Connection received from " + clientSocket.getInetAddress().getHostName() + " : " + clientSocket.getPort());
-                Connection c = new Connection(clientSocket);
+                gui.changeconnectionIcon(new JLabel());
+                clientList.add(new Client(clientSocket.getInetAddress().toString(),clientSocket.getPort(),clientSocket.getInetAddress().getHostName(),clientList.size(),true));
+                Connection c = new Connection(clientSocket,clientList);
+
+
+                //System.out.printf("asdsadasda");
+
+
+
+
+
+
 
             }
         } catch (IOException e) {
@@ -33,11 +51,26 @@ public class TCPServer {
 }
 
 class Connection extends Thread {
+
+
+    boolean running = true;
+    List<Client> clientList;
+    GuiApp gui;
     InputStream input;
     OutputStream output;
     Socket clientSocket;
 
-    public Connection(Socket aClientSocket) {
+    public Connection(Socket aClientSocket,List<Client> clientList) {
+        System.out.println("ConaDASFASFFS" );
+        this.clientList=clientList;
+        String listString = "";
+
+        for (Client client: clientList)
+        {
+
+            listString += client.toString() + "\t";
+        }
+        System.out.println("LISTA" + listString);
         try {
             clientSocket = aClientSocket;
             input = clientSocket.getInputStream();
@@ -45,30 +78,39 @@ class Connection extends Thread {
             this.start();
         } catch (IOException e) {
             System.out.println("Connection:" + e.getMessage());
+
         }
     }
 
-    public void readFromClient() {
-        int red = -1;
-        byte[] buffer = new byte[5*1024]; // a read buffer of 5KiB
-        byte[] redData;
-        StringBuilder clientData = new StringBuilder();
-        String redDataText;
-        try {
-            red = clientSocket.getInputStream().read(buffer);
+    public  void readFromClient() {
+
+            int red = -1;
+            byte[] buffer = new byte[5*1024]; // a read buffer of 5KiB
+            byte[] redData;
+            StringBuilder clientData = new StringBuilder();
+            String redDataText;
+            try {
+                red = clientSocket.getInputStream().read(buffer);
                 redData = new byte[red];
                 System.arraycopy(buffer, 0, redData, 0, red);
                 redDataText = new String(redData,"UTF-8"); // assumption that client sends data UTF-8 encoded
                 System.out.println("client :" + redDataText);
                 clientData.append(redDataText);
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            } catch (IOException | NegativeArraySizeException e) {
+                System.out.println("error");
+                try {
+                    clientSocket.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                e.printStackTrace();
+            }
+            System.out.println("odczytano, Data From Client :" + clientData.toString()+"k");
+
+        if( clientData.toString().equals("stop") ) {
+running= false;
         }
-        System.out.println("Data From Client :" + clientData.toString());
-
-
-        System.out.println("odczytano");
 
     }
 
@@ -93,17 +135,37 @@ class Connection extends Thread {
     }
 
     public void run() {
+        //////////
+        int port= clientSocket.getPort();
+        while (running)
+        {
 
-      //  try { // an echo server
-            //  String data = input.readUTF();
 
 
-                    sendToOneClient("t");
-            readFromClient();
-            sendToOneClient("65");
-            readFromClient();
 
-          //  System.out.println("waiting for file");
+
+
+
+
+        readFromClient();
+            sendToOneClient("t");
+
+        //////////
+
+        //  try { // an echo server
+        //  String data = input.readUTF();
+
+
+
+
+
+            // thread sleep ...
+            // break condition , close sockets and the like ...
+
+        // sendToOneClient("65");
+        // readFromClient();
+
+        //  System.out.println("waiting for file");
 
 /*c
             ////////////////////
@@ -129,9 +191,31 @@ class Connection extends Thread {
   }
 
 */
-            if (clientSocket.isClosed()) {
-                System.out.println("Client disconnect");
-            }
+
+        if (clientSocket.isClosed () || !clientSocket.isConnected()) {
+
+
+            System.out.println("Client disconnect");
         }
+
+
+        }
+        for (Client client: clientList)
+        {
+//System.out.println(client.getPort()+ port);
+            if (client.getPort()==port)
+                clientList.remove(client);
+        }
+        try {
+            clientSocket.close();
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        }
+
     }
+}
+
+
 

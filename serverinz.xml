@@ -161,6 +161,17 @@
   <property name="project.jdk.home" value="${jdk.home.9.0}"/>
   <property name="project.jdk.bin" value="${jdk.bin.9.0}"/>
   <property name="project.jdk.classpath" value="jdk.classpath.9.0"/>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.jna-4.5.0.classpath">
+    <pathelement location="${basedir}/jna-4.5.0.jar"/>
+  </path>
+  
+  <path id="library.vlcj-3.0.1.classpath">
+    <pathelement location="${basedir}/vlcj-3.0.1.jar"/>
+  </path>
   <!-- Register Custom Compiler Taskdefs -->
   <property name="javac2.home" value="${idea.home}/lib"/>
   <path id="javac2.classpath">
@@ -186,5 +197,33 @@
   
   <target name="build.modules" depends="init, clean, compile.module.serverinz" description="build all modules"/>
   
-  <target name="all" depends="build.modules" description="build all"/>
+  <target name="init.artifacts">
+    <property name="artifacts.temp.dir" value="${basedir}/__artifacts_temp"/>
+    <property name="artifact.output.serverinz:jar" value="${basedir}/out/artifacts/serverinz_jar"/>
+    <mkdir dir="${artifacts.temp.dir}"/>
+    <property name="temp.jar.path.serverinz.jar" value="${artifacts.temp.dir}/serverinz.jar"/>
+  </target>
+  
+  <target name="artifact.serverinz:jar" depends="init.artifacts, compile.module.serverinz" description="Build &#39;serverinz:jar&#39; artifact">
+    <property name="artifact.temp.output.serverinz:jar" value="${artifacts.temp.dir}/serverinz_jar"/>
+    <mkdir dir="${artifact.temp.output.serverinz:jar}"/>
+    <jar destfile="${temp.jar.path.serverinz.jar}" duplicate="preserve" filesetmanifest="mergewithoutmain">
+      <zipfileset dir="${serverinz.output.dir}"/>
+      <zipfileset file="${basedir}/jna-4.5.0.jar"/>
+      <zipfileset file="${basedir}/vlcj-3.0.1.jar"/>
+    </jar>
+    <copy file="${temp.jar.path.serverinz.jar}" tofile="${artifact.temp.output.serverinz:jar}/serverinz.jar"/>
+  </target>
+  
+  <target name="build.all.artifacts" depends="artifact.serverinz:jar" description="Build all artifacts">
+    <mkdir dir="${artifact.output.serverinz:jar}"/>
+    <copy todir="${artifact.output.serverinz:jar}">
+      <fileset dir="${artifact.temp.output.serverinz:jar}"/>
+    </copy>
+    
+    <!-- Delete temporary files -->
+    <delete dir="${artifacts.temp.dir}"/>
+  </target>
+  
+  <target name="all" depends="build.modules, build.all.artifacts" description="build all"/>
 </project>

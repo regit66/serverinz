@@ -25,7 +25,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="jna-3.1.0" level="project" />
+    <orderEntry type="library" name="jna-4.5.0" level="project" />
     <orderEntry type="library" name="vlcj-3.0.1" level="project" />
   </component>
 </module>
