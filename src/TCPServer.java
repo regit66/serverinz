@@ -224,16 +224,16 @@ gui.getConnection().setVisible(false);
            /// if (clientSocket.isClosed() || !clientSocket.isConnected()) {
 
 
-                System.out.println("Client disconnect");
-                removeClient();
-                stop();
+
 
            // }
 
 
         }
-
+        System.out.println("Client "+ clientSocket.getInetAddress().getHostName() + " : " + clientSocket.getPort() + " disconnect");
         removeClient();
+        stop();
+
 
 
 
