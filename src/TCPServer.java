@@ -180,14 +180,28 @@ class Connection extends Thread {
         gui.getButtonUp().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setRozkaz("up");
+                setRozkaz("u");
 
             }
         });
         gui.getButtonDown().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setRozkaz("down");
+                setRozkaz("d");
+
+            }
+        });
+        gui.getLeftButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setRozkaz("l");
+
+            }
+        });
+        gui.getRightButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setRozkaz("r");
 
             }
         });

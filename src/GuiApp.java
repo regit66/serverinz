@@ -72,7 +72,8 @@ public class GuiApp extends JFrame {
 
         setVisible(true);
 
-        ////v1.play("http://www.quirksmode.org/html5/videos/big_buck_bunny.mp4");
+       // v1.play("http://192.168.1.28:8080/?action=stream");
+       // v2.play("http://192.168.1.22:8080/?action=stream");
         //  v2.play("http://vjs.zencdn.net/v/oceans.mp4");
         //  v3.play("http://vjs.zencdn.net/v/oceans.mp4");
         //  v4.play("http://vjs.zencdn.net/v/oceans.mp4");
@@ -107,6 +108,22 @@ public class GuiApp extends JFrame {
 
     }
 
+    public JButton getRightButton() {
+        return rightButton;
+    }
+
+    public void setRightButton(JButton rightButton) {
+        this.rightButton = rightButton;
+    }
+
+    public JButton getLeftButton() {
+        return leftButton;
+    }
+
+    public void setLeftButton(JButton leftButton) {
+        this.leftButton = leftButton;
+    }
+
     public void changeconnectionIcon(JLabel icon, JRadioButton jRadioButton, Client client, List<Client> clientList) {
 
         if (client.isConnected()) {
@@ -115,6 +132,8 @@ public class GuiApp extends JFrame {
             IconPanel.add(icon);
             jRadioButton.setText("Robot: " + client.getIp());
             icon.setIcon(imgThisImg);
+            v1.play("http://192.168.1.28:8080/?action=stream");
+            v2.play("http://192.168.1.22:8080/?action=stream");
 
         } else {
             jRadioButton.setVisible(false);
