@@ -10,7 +10,7 @@ public class GuiApp extends JFrame {
     private JButton buttonUp;
     private JButton leftButton;
     private JButton buttonDown;
-    private JButton ustawButton;
+    private JButton setSpeed;
     private JPanel vid1;
     private JPanel vid2;
     private JPanel vid3;
@@ -24,7 +24,7 @@ public class GuiApp extends JFrame {
     private JLabel Connection;
     private JLabel robotControlLabel;
     private JButton openDataButton;
-    private JSlider slider1;
+    private JSlider speedControler;
     private PlayerPanel v1, v2, v3, v4;
     private MenuFactory menuFactory;
 
@@ -80,6 +80,7 @@ public class GuiApp extends JFrame {
             jRadioButton.setText("Robot: " + client.getIp());
             icon.setIcon(imgThisImg);
             //client.getIp();
+           // v1.play("http://"+client.getName()+":8080/?action=stream");
             v1.play("http://192.168.1.28:8080/?action=stream");
             v2.play("http://192.168.1.22:8080/?action=stream");
 
@@ -111,6 +112,25 @@ public class GuiApp extends JFrame {
                 screenHeight * 7 / 8);
         setLocation(0, 0);
         // For screenshots only -> setBounds(50, 50, 850, 650);
+    }
+
+    public JButton getSetSpeed() {
+        return setSpeed;
+    }
+
+    public JButton getGetDataButton() {
+        return getDataButton;
+    }
+
+    public void setGetDataButton(JButton getDataButton) {
+        this.getDataButton = getDataButton;
+    }
+
+    public int  getSpeed()
+    {
+
+return   speedControler.getValue();
+
     }
 
     /**

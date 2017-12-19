@@ -167,28 +167,45 @@ class Connection extends Thread {
         gui.getButtonUp().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setRozkaz("u");
+                setRozkaz("up");
 
             }
         });
         gui.getButtonDown().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setRozkaz("d");
+                setRozkaz("down");
 
             }
         });
         gui.getLeftButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setRozkaz("l");
+                setRozkaz("left");
 
             }
         });
         gui.getRightButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setRozkaz("r");
+                setRozkaz("right");
+
+            }
+        });
+        gui.getSetSpeed().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setRozkaz("speed");
+
+
+
+            }
+        });
+        gui.getGetDataButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                setRozkaz("file");
 
             }
         });
@@ -211,11 +228,23 @@ class Connection extends Thread {
             }
 
             while (!jRadioButton.isSelected() == true) {
+
                 System.out.println("wybierz robota");
             }
             sendToOneClient(rozkaz);
+
+            if (rozkaz=="speed") {
+                setRozkaz(Integer.toString(gui.getSpeed()));
+                sendToOneClient(rozkaz);
+            }
+
+
+            if (rozkaz=="file") {
+                getFile();
+            }
+
             readFromClient(cc);
-            //getFile();
+
         }
 
         System.out.println("Client " + clientSocket.getInetAddress().getHostName() + " : " + clientSocket.getPort() + " disconnect");
