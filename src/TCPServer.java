@@ -22,23 +22,20 @@ public class TCPServer {
         try {
             int serverPort = 20000;
             ServerSocket listenSocket = new ServerSocket(serverPort);
-
-            System.out.println("server start listening... ... ...");
+            System.out.println("Server work ok. Server start listening... ... ...");
 
             while (true) {
-                Socket clientSocket = listenSocket.accept();
-                //System.out.println("Client connect" + clientSocket.getLocalAddress());
-                System.out.println("Connection received from " + clientSocket.getInetAddress().getHostName() + " : " + clientSocket.getPort());
 
+                Socket clientSocket = listenSocket.accept();
+                System.out.println("Connection received from " + clientSocket.getInetAddress().getHostName() + " : " + clientSocket.getPort());
                 Client cc = new Client(clientSocket.getInetAddress().toString(), clientSocket.getPort(), clientSocket.getInetAddress().getHostName(), clientList.size(), true);
                 clientList.add(cc);
-                Connection c = new Connection(clientSocket, clientList, gui, cc);
+                new Connection(clientSocket, clientList, gui, cc);
 
             }
         } catch (IOException e) {
             System.out.println("Listen :" + e.getMessage());
         }
-
 
     }
 }
@@ -62,8 +59,7 @@ class Connection extends Thread {
         this.cc = cc;
         gui.getRobotControlLabel().setVisible(true);
         gui.getConnection().setVisible(false);
-
-        gui.changeconnectionIcon(jlabel, jRadioButton, cc, clientList);
+        gui.changeConnectionPanel(jlabel, jRadioButton, cc, clientList);
         String listString = "";
 
         for (Client client : clientList) {
@@ -100,16 +96,14 @@ class Connection extends Thread {
             }
             redData = new byte[red];
 
-
             //wyjatek
             System.arraycopy(buffer, 0, redData, 0, red);
             redDataText = new String(redData, "UTF-8"); // assumption that client sends data UTF-8 encoded
-            System.out.println("Client " + clientSocket.getInetAddress().getHostName() + " : " + clientSocket.getPort() +": " + redDataText);
+            System.out.println("Client " + clientSocket.getInetAddress().getHostName() + " : " + clientSocket.getPort() + ": " + redDataText);
             clientData.append(redDataText);
 
         } catch (IOException | NegativeArraySizeException e) {
             System.out.println("error");
-
 
             removeClient();
 
@@ -130,9 +124,6 @@ class Connection extends Thread {
 
     public synchronized void removeClient() {
         cc.setConnected(false);
-        //  System.out.println(cc.isConnected());
-///////////
-
         Iterator<Client> i = clientList.iterator();
         while (i.hasNext()) {
             Client s = i.next(); // must be called before you can call i.remove()
@@ -141,14 +132,10 @@ class Connection extends Thread {
                 i.remove();
         }
 
-        ///////////////    if (client.getPort() == port)
-
-        //System.out.print("dadsadasdsadsa"+ clientList.size());
-        gui.changeconnectionIcon(jlabel, jRadioButton, cc, clientList);
+        gui.changeConnectionPanel(jlabel, jRadioButton, cc, clientList);
     }
 
     public void sendToOneClient(String rozkaz) {
-
 
         // Sending the response back to the client.
         // Note: Ideally you want all these in a try/catch/finally block
@@ -175,7 +162,7 @@ class Connection extends Thread {
     }
 
 
-    public void waitfor() {
+    public void waitForArgument() {
         rozkaz = null;
         gui.getButtonUp().addActionListener(new ActionListener() {
             @Override
@@ -212,13 +199,10 @@ class Connection extends Thread {
         port = clientSocket.getPort();
         while (cc.isConnected()) {
 
-
-
-
             rozkaz = null;
             while (rozkaz == null) {
 
-                waitfor();
+                waitForArgument();
                 try {
                     sleep(100);
                 } catch (InterruptedException e) {
@@ -231,57 +215,12 @@ class Connection extends Thread {
             }
             sendToOneClient(rozkaz);
             readFromClient(cc);
-
-
-
-            //  try { // an echo server
-            //  String data = input.readUTF();
-
-
-            // thread sleep ...
-            // break condition , close sockets and the like ...
-
-            // sendToOneClient("65");
-            // readFromClient();
-
-            //  System.out.println("waiting for file");
-
-/*c
-            ////////////////////
-            output = new FileOutputStream("test.txt");
-            byte[] bytes = new byte[16 * 1024];
-
-            int count;
-            while ((count = input.read(bytes)) > 0) {
-                output.write(bytes, 0, count);
-            }
-            //  output.writeUTF(st);
-            output.close();
-            input.close();
-        } catch (EOFException e) {
-            System.out.println("EOF:" + e.getMessage());
-        } catch (IOException e) {
-            System.out.println("IO:" + e.getMessage());
-        } finally {
-            try {
-                System.out.println("Send file completed");
-                clientSocket.close();
-            } catch (IOException e) {close failed}
-  }
-
-*/
-
-            /// if (clientSocket.isClosed() || !clientSocket.isConnected()) {
-
-
-            // }
-
-
+            //getFile();
         }
+
         System.out.println("Client " + clientSocket.getInetAddress().getHostName() + " : " + clientSocket.getPort() + " disconnect");
         removeClient();
         stop();
-
 
         try {
             clientSocket.close();
@@ -290,6 +229,34 @@ class Connection extends Thread {
 
             e.printStackTrace();
         }
+
+    }
+
+    private void getFile() {
+        System.out.println("waiting for file");
+
+        try {
+            output = new FileOutputStream("test.txt");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        byte[] bytes = new byte[16 * 1024];
+
+        int count;
+        try {
+            if ((count = input.read(bytes)) > 0) {
+                output.write(bytes, 0, count);
+                System.out.println("Send file completed");
+                //   input.close();
+                // output.close();
+            }
+
+        } catch (EOFException e) {
+            System.out.println("EOF:" + e.getMessage());
+        } catch (IOException e) {
+            System.out.println("IO:" + e.getMessage());
+        }
+
 
     }
 }

@@ -13,27 +13,14 @@ public class PlayerPanel extends JPanel {
     private File vlcInstallPath = new File("D:\\Program Files\\VideoLAN\\VLC");
     private EmbeddedMediaPlayer player;
 
-    private EmbeddedMediaPlayerComponent mediaPlayerComponent;
-
-
     public PlayerPanel() {
         NativeLibrary.addSearchPath("libvlc", vlcInstallPath.getAbsolutePath());
         EmbeddedMediaPlayerComponent videoCanvas = new EmbeddedMediaPlayerComponent();
 
-
-
-
-
-
         this.setLayout(new BorderLayout());
         this.add(videoCanvas, BorderLayout.CENTER);
-
-
-
-
-
-        JPanel controlsPanel = new JPanel();
         this.player = videoCanvas.getMediaPlayer();
+        JPanel controlsPanel = new JPanel();
         JButton pauseButton = new JButton("Pause");
         controlsPanel.add(pauseButton);
         JButton rewindButton = new JButton("Rewind");
@@ -41,6 +28,7 @@ public class PlayerPanel extends JPanel {
         JButton skipButton = new JButton("Skip");
         controlsPanel.add(skipButton);
         this.add(controlsPanel, BorderLayout.SOUTH);
+
         pauseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -50,20 +38,22 @@ public class PlayerPanel extends JPanel {
         rewindButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               videoCanvas.getMediaPlayer().skip(-10000);
+                videoCanvas.getMediaPlayer().skip(-10000);
             }
         });
         skipButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            videoCanvas.getMediaPlayer().setFullScreen(true);
+                videoCanvas.getMediaPlayer().setFullScreen(true);
 
             }
         });
 
     }
 
-
+    /**
+     * Add url to player
+     */
     public void play(String media) {
 
         player.prepareMedia(media);
@@ -72,7 +62,4 @@ public class PlayerPanel extends JPanel {
 
     }
 
-    public void fullScreen() {
-
-    }
 }

@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class GuiApp extends JFrame {
@@ -12,7 +11,6 @@ public class GuiApp extends JFrame {
     private JButton leftButton;
     private JButton buttonDown;
     private JButton ustawButton;
-    private JTextField textField1;
     private JPanel vid1;
     private JPanel vid2;
     private JPanel vid3;
@@ -26,30 +24,8 @@ public class GuiApp extends JFrame {
     private JLabel Connection;
     private JLabel robotControlLabel;
     private JButton openDataButton;
+    private JSlider slider1;
     private PlayerPanel v1, v2, v3, v4;
-    private Client c;
-    private List<Client> clientList;
-    private String rozkaz;
-
-    public JLabel getRobotControlLabel() {
-        return robotControlLabel;
-    }
-
-    public void setRobotControlLabel(JLabel robotControlLabel) {
-        this.robotControlLabel = robotControlLabel;
-    }
-
-    public String getRozkaz() {
-        return rozkaz;
-    }
-
-    public void setRozkaz(String rozkaz) {
-        this.rozkaz = rozkaz;
-    }
-
-    ArrayList<JLabel> listofLabels = new ArrayList<JLabel>(100);
-
-
     private MenuFactory menuFactory;
 
     public GuiApp() {
@@ -72,27 +48,12 @@ public class GuiApp extends JFrame {
 
         setVisible(true);
 
-       // v1.play("http://192.168.1.28:8080/?action=stream");
-       // v2.play("http://192.168.1.22:8080/?action=stream");
+        // v1.play("http://192.168.1.28:8080/?action=stream");
+        // v2.play("http://192.168.1.22:8080/?action=stream");
         //  v2.play("http://vjs.zencdn.net/v/oceans.mp4");
         //  v3.play("http://vjs.zencdn.net/v/oceans.mp4");
         //  v4.play("http://vjs.zencdn.net/v/oceans.mp4");
 
-    }
-
-    /**
-     * @return the menu factory instance
-     */
-    private MenuFactory getMenuFactory() {
-        if (this.menuFactory == null) {
-            menuFactory = new MenuFactory();
-        }
-        return this.menuFactory;
-    }
-
-    public JLabel getConnection() {
-
-        return Connection;
     }
 
     /**
@@ -107,24 +68,10 @@ public class GuiApp extends JFrame {
         setJMenuBar(menuBar);
 
     }
-
-    public JButton getRightButton() {
-        return rightButton;
-    }
-
-    public void setRightButton(JButton rightButton) {
-        this.rightButton = rightButton;
-    }
-
-    public JButton getLeftButton() {
-        return leftButton;
-    }
-
-    public void setLeftButton(JButton leftButton) {
-        this.leftButton = leftButton;
-    }
-
-    public void changeconnectionIcon(JLabel icon, JRadioButton jRadioButton, Client client, List<Client> clientList) {
+    /**
+     * Creates connected robot gui
+     */
+    public void changeConnectionPanel(JLabel icon, JRadioButton jRadioButton, Client client, List<Client> clientList) {
 
         if (client.isConnected()) {
             ImageIcon imgThisImg = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("image/connected-256.png")));
@@ -132,16 +79,18 @@ public class GuiApp extends JFrame {
             IconPanel.add(icon);
             jRadioButton.setText("Robot: " + client.getIp());
             icon.setIcon(imgThisImg);
+            //client.getIp();
             v1.play("http://192.168.1.28:8080/?action=stream");
             v2.play("http://192.168.1.22:8080/?action=stream");
 
         } else {
+
             jRadioButton.setVisible(false);
             icon.setVisible(false);
             IconPanel.repaint();
 
             if (clientList.size() == 0) {
-                //ImageIcon imgThisImg = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("image/disconnected-256.png")));
+
                 getConnection().setVisible(true);
                 robotControlLabel.setVisible(false);
                 IconPanel.repaint();
@@ -164,14 +113,6 @@ public class GuiApp extends JFrame {
         // For screenshots only -> setBounds(50, 50, 850, 650);
     }
 
-    public JButton getButtonUp() {
-        return buttonUp;
-    }
-
-    public void setButtonUp(JButton buttonUp) {
-        this.buttonUp = buttonUp;
-    }
-
     /**
      * Set title and icon
      */
@@ -181,6 +122,29 @@ public class GuiApp extends JFrame {
 
     }
 
+    /**
+     * @return the menu factory instance
+     */
+    private MenuFactory getMenuFactory() {
+        if (this.menuFactory == null) {
+            menuFactory = new MenuFactory();
+        }
+        return this.menuFactory;
+    }
+
+    public JLabel getConnection() {
+
+        return Connection;
+    }
+
+    public JButton getButtonUp() {
+        return buttonUp;
+    }
+
+    public void setButtonUp(JButton buttonUp) {
+        this.buttonUp = buttonUp;
+    }
+
     public JButton getButtonDown() {
         return buttonDown;
     }
@@ -188,4 +152,27 @@ public class GuiApp extends JFrame {
     public void setButtonDown(JButton buttonDown) {
         this.buttonDown = buttonDown;
     }
+
+    public JButton getRightButton() {return rightButton; }
+
+    public void setRightButton(JButton rightButton) {
+        this.rightButton = rightButton;
+    }
+
+    public JButton getLeftButton() {
+        return leftButton;
+    }
+
+    public void setLeftButton(JButton leftButton) {
+        this.leftButton = leftButton;
+    }
+
+    public JLabel getRobotControlLabel() {
+        return robotControlLabel;
+    }
+
+    public void setRobotControlLabel(JLabel robotControlLabel) {
+        this.robotControlLabel = robotControlLabel;
+    }
+
 }
