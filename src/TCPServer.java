@@ -235,6 +235,7 @@ class Connection extends Thread {
 
             if (rozkaz=="speed") {
                 setRozkaz(Integer.toString(gui.getSpeed()));
+                readFromClient(cc);
                 sendToOneClient(rozkaz);
             }
 
