@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.List;
 
 public class GuiApp extends JFrame {
@@ -16,10 +17,7 @@ public class GuiApp extends JFrame {
     private JPanel vid3;
     private JPanel vid4;
     private JButton getDataButton;
-    private JButton a270Button;
-    private JButton a90Button;
-    private JButton a180Button;
-    private JButton a360Button;
+    private JButton loadScriptButton;
     private JPanel IconPanel;
     private JLabel Connection;
     private JLabel robotControlLabel;
@@ -27,10 +25,11 @@ public class GuiApp extends JFrame {
     private JSlider speedControler;
     private PlayerPanel v1, v2, v3, v4;
     private MenuFactory menuFactory;
+    com.google.zxing.Result result = null;
+    BufferedImage image = null;
 
     public GuiApp() {
         setDefaultCloseOperation(this.EXIT_ON_CLOSE);
-
         setInitialSize();
         decorateFrame();
         createMenuBar();
@@ -44,6 +43,7 @@ public class GuiApp extends JFrame {
         vid3.add(v3 = new PlayerPanel());
         vid4.setLayout(new BorderLayout());
         vid4.add(v4 = new PlayerPanel());
+
         //pack();
 
         setVisible(true);
@@ -68,6 +68,12 @@ public class GuiApp extends JFrame {
         setJMenuBar(menuBar);
 
     }
+
+    public  void runQRScaner()
+    {
+    v2.scanQR();
+    }
+
     /**
      * Creates connected robot gui
      */
@@ -120,10 +126,6 @@ public class GuiApp extends JFrame {
 
     public JButton getGetDataButton() {
         return getDataButton;
-    }
-
-    public void setGetDataButton(JButton getDataButton) {
-        this.getDataButton = getDataButton;
     }
 
     public int  getSpeed()

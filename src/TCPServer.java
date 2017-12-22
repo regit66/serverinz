@@ -28,9 +28,9 @@ public class TCPServer {
 
                 Socket clientSocket = listenSocket.accept();
                 System.out.println("Connection received from " + clientSocket.getInetAddress().getHostName() + " : " + clientSocket.getPort());
-                Client cc = new Client(clientSocket.getInetAddress().toString(), clientSocket.getPort(), clientSocket.getInetAddress().getHostName(), clientList.size(), true);
-                clientList.add(cc);
-                new Connection(clientSocket, clientList, gui, cc);
+                Client client = new Client(clientSocket.getInetAddress().toString(), clientSocket.getPort(), clientSocket.getInetAddress().getHostName(), clientList.size(), true);
+                clientList.add(client);
+                new Connection(clientSocket, clientList, gui, client);
 
             }
         } catch (IOException e) {
@@ -198,7 +198,6 @@ class Connection extends Thread {
                 setRozkaz("speed");
 
 
-
             }
         });
         gui.getGetDataButton().addActionListener(new ActionListener() {
@@ -219,6 +218,7 @@ class Connection extends Thread {
             rozkaz = null;
             while (rozkaz == null) {
 
+                gui.runQRScaner();
                 waitForArgument();
                 try {
                     sleep(100);
@@ -233,14 +233,14 @@ class Connection extends Thread {
             }
             sendToOneClient(rozkaz);
 
-            if (rozkaz=="speed") {
+            if (rozkaz == "speed") {
                 setRozkaz(Integer.toString(gui.getSpeed()));
                 readFromClient(cc);
                 sendToOneClient(rozkaz);
             }
 
 
-            if (rozkaz=="file") {
+            if (rozkaz == "file") {
                 getFile();
             }
 

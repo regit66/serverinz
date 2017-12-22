@@ -1,17 +1,28 @@
+import com.google.zxing.BinaryBitmap;
+import com.google.zxing.LuminanceSource;
+import com.google.zxing.MultiFormatReader;
+import com.google.zxing.NotFoundException;
+import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
+import com.google.zxing.common.HybridBinarizer;
 import com.sun.jna.NativeLibrary;
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 public class PlayerPanel extends JPanel {
 
     private File vlcInstallPath = new File("D:\\Program Files\\VideoLAN\\VLC");
     private EmbeddedMediaPlayer player;
+    com.google.zxing.Result result = null;
+    BufferedImage image = null;
 
     public PlayerPanel() {
         NativeLibrary.addSearchPath("libvlc", vlcInstallPath.getAbsolutePath());
@@ -46,8 +57,34 @@ public class PlayerPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 videoCanvas.getMediaPlayer().setFullScreen(true);
 
+
             }
         });
+
+    }
+
+    public void scanQR() {
+
+        image = player.getVideoSurfaceContents();
+        System.out.println("test");
+        LuminanceSource source = new BufferedImageLuminanceSource(image);
+        BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+        try {
+            result = new MultiFormatReader().decode(bitmap);
+        } catch (NotFoundException e) {
+            // fall thru, it means there is no QR code in image
+        }
+        if (result != null) {
+            System.out.println("QR code data is: " + result.getText());
+        }
+
+        File outfile = new File("image.jpg");
+        try {
+            ImageIO.write(image, "jpg", outfile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
