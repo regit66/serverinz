@@ -30,7 +30,7 @@ public class HelpMenu extends JMenu {
             public void actionPerformed(ActionEvent e) {
                 if (Desktop.isDesktopSupported()) {
                     try {
-                        File myFile = new File("manual/Khepera IV User Manual 3.x.pdf");
+                        File myFile = new File("manual/guide.pdf");
                         Desktop.getDesktop().open(myFile);
                     } catch (IOException ex) {
                         // no application registered for PDFs
@@ -48,7 +48,6 @@ public class HelpMenu extends JMenu {
      * Main app frame where this menu is attached to
      */
     private JFrame mainFrame;
-
 
     private JMenuItem userGuideItem;
 }
