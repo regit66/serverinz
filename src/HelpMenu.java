@@ -49,6 +49,5 @@ public class HelpMenu extends JMenu {
      */
     private JFrame mainFrame;
 
-
     private JMenuItem userGuideItem;
 }

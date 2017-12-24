@@ -8,14 +8,12 @@ import com.sun.jna.NativeLibrary;
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 
 public class PlayerPanel extends JPanel {
 
@@ -27,7 +25,10 @@ public class PlayerPanel extends JPanel {
     public PlayerPanel() {
         NativeLibrary.addSearchPath("libvlc", vlcInstallPath.getAbsolutePath());
         EmbeddedMediaPlayerComponent videoCanvas = new EmbeddedMediaPlayerComponent();
-
+        this.setSize(new Dimension(200,200));
+        this.setMaximumSize(new Dimension(200,200));
+        this.setPreferredSize(new Dimension(200,200));
+        this.setMinimumSize(new Dimension(200,200));
         this.setLayout(new BorderLayout());
         this.add(videoCanvas, BorderLayout.CENTER);
         this.player = videoCanvas.getMediaPlayer();
@@ -65,6 +66,7 @@ public class PlayerPanel extends JPanel {
 
     public void scanQR() {
 
+
         image = player.getVideoSurfaceContents();
         System.out.println("test");
         LuminanceSource source = new BufferedImageLuminanceSource(image);
@@ -77,13 +79,16 @@ public class PlayerPanel extends JPanel {
         if (result != null) {
             System.out.println("QR code data is: " + result.getText());
         }
-
+        //for test only
+        /*
         File outfile = new File("image.jpg");
         try {
             ImageIO.write(image, "jpg", outfile);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
+
 
 
     }
@@ -96,6 +101,16 @@ public class PlayerPanel extends JPanel {
         player.prepareMedia(media);
         player.parseMedia();
         player.play();
+
+    }
+
+
+    /**
+     * Disable player
+     */
+    public void stop(){
+
+        player.stop();
 
     }
 

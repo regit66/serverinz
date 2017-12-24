@@ -1,6 +1,6 @@
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.List;
 
 public class GuiApp extends JFrame {
@@ -12,21 +12,17 @@ public class GuiApp extends JFrame {
     private JButton leftButton;
     private JButton buttonDown;
     private JButton setSpeed;
-    private JPanel vid1;
-    private JPanel vid2;
-    private JPanel vid3;
-    private JPanel vid4;
+    private JPanel videoPanel;
     private JButton getDataButton;
     private JButton loadScriptButton;
     private JPanel IconPanel;
     private JLabel Connection;
     private JLabel robotControlLabel;
     private JButton openDataButton;
-    private JSlider speedControler;
-    private PlayerPanel v1, v2, v3, v4;
+    private JSlider speedController;
+    private JLabel stream;
     private MenuFactory menuFactory;
-    com.google.zxing.Result result = null;
-    BufferedImage image = null;
+
 
     public GuiApp() {
         setDefaultCloseOperation(this.EXIT_ON_CLOSE);
@@ -35,24 +31,8 @@ public class GuiApp extends JFrame {
         createMenuBar();
         setContentPane(panelMain);
         IconPanel.setLayout(new BoxLayout(IconPanel, BoxLayout.PAGE_AXIS));
-        vid1.setLayout(new BorderLayout());
-        vid1.add(v1 = new PlayerPanel());
-        vid2.setLayout(new BorderLayout());
-        vid2.add(v2 = new PlayerPanel());
-        vid3.setLayout(new BorderLayout());
-        vid3.add(v3 = new PlayerPanel());
-        vid4.setLayout(new BorderLayout());
-        vid4.add(v4 = new PlayerPanel());
-
         //pack();
-
         setVisible(true);
-
-        // v1.play("http://192.168.1.28:8080/?action=stream");
-        // v2.play("http://192.168.1.22:8080/?action=stream");
-        //  v2.play("http://vjs.zencdn.net/v/oceans.mp4");
-        //  v3.play("http://vjs.zencdn.net/v/oceans.mp4");
-        //  v4.play("http://vjs.zencdn.net/v/oceans.mp4");
 
     }
 
@@ -64,43 +44,69 @@ public class GuiApp extends JFrame {
         final JMenuBar menuBar = new JMenuBar();
         final MenuFactory menuFactory = getMenuFactory();
         menuBar.add(menuFactory.getHelpMenu(this));
-
         setJMenuBar(menuBar);
 
     }
 
-    public  void runQRScaner()
+    /**
+     * Set property Layout for video panel
+     */
+    private void setVideoPanelLayout(List<Client> clientList)
     {
-    v2.scanQR();
+        if (clientList.size()<=2)
+        {
+            GridLayout experimentLayout = new GridLayout(0,1);
+            videoPanel.setLayout(experimentLayout);
+        }
+        else
+        {
+            GridLayout experimentLayout = new GridLayout(0,2);
+            videoPanel.setLayout(experimentLayout);
+        }
     }
 
     /**
      * Creates connected robot gui
      */
-    public void changeConnectionPanel(JLabel icon, JRadioButton jRadioButton, Client client, List<Client> clientList) {
+    public void changeConnectionPanel(JLabel icon, JRadioButton jRadioButton, Client client, List<Client> clientList,PlayerPanel playerPanel) {
 
         if (client.isConnected()) {
+
             ImageIcon imgThisImg = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("image/connected-256.png")));
             IconPanel.add(jRadioButton);
             IconPanel.add(icon);
             jRadioButton.setText("Robot: " + client.getIp());
+            jRadioButton.setSelected(true);
             icon.setIcon(imgThisImg);
-            //client.getIp();
-           // v1.play("http://"+client.getName()+":8080/?action=stream");
-            v1.play("http://192.168.1.28:8080/?action=stream");
-            v2.play("http://192.168.1.22:8080/?action=stream");
+            setVideoPanelLayout(clientList);
+
+            videoPanel.add(playerPanel);
+            TitledBorder border = new TitledBorder(client.getIp());
+            playerPanel.setBorder(border);
+            videoPanel.remove(stream);
+            // it s work with robot
+            // playerPanel.play("http://"+client.getName()+":8080/?action=stream");
+            //for test
+            playerPanel.play("http://www.quirksmode.org/html5/videos/big_buck_bunny.mp4");
+
+
 
         } else {
-
+            setVideoPanelLayout(clientList);
+            playerPanel.stop();
+            videoPanel.remove(playerPanel);
             jRadioButton.setVisible(false);
             icon.setVisible(false);
             IconPanel.repaint();
+            videoPanel.repaint();
 
             if (clientList.size() == 0) {
 
+                videoPanel.add(stream);
                 getConnection().setVisible(true);
                 robotControlLabel.setVisible(false);
                 IconPanel.repaint();
+
             }
 
         }
@@ -118,21 +124,6 @@ public class GuiApp extends JFrame {
                 screenHeight * 7 / 8);
         setLocation(0, 0);
         // For screenshots only -> setBounds(50, 50, 850, 650);
-    }
-
-    public JButton getSetSpeed() {
-        return setSpeed;
-    }
-
-    public JButton getGetDataButton() {
-        return getDataButton;
-    }
-
-    public int  getSpeed()
-    {
-
-return   speedControler.getValue();
-
     }
 
     /**
@@ -157,6 +148,21 @@ return   speedControler.getValue();
     public JLabel getConnection() {
 
         return Connection;
+    }
+
+    public JButton getSetSpeed() {
+        return setSpeed;
+    }
+
+    public JButton getGetDataButton() {
+        return getDataButton;
+    }
+
+    public int  getSpeed()
+    {
+
+        return speedController.getValue();
+
     }
 
     public JButton getButtonUp() {
