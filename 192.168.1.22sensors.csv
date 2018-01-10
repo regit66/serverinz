@@ -1,0 +1,13 @@
+Proximity Sensors						 
+back left      :;   31;  
+left           :;   27						 
+front left     :;   22;  
+front          :;   20						 
+front right    :;    5;  
+right          :;   44						 
+back right     :;   13;  
+back           :;   14						 
+ground left    :;  961;  
+gnd front left :;  962						 
+gnd front right:;  958;  
+ground right   :;  959

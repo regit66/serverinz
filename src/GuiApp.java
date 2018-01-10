@@ -14,7 +14,6 @@ public class GuiApp extends JFrame {
     private JButton setSpeed;
     private JPanel videoPanel;
     private JButton getDataButton;
-    private JButton loadScriptButton;
     private JPanel IconPanel;
     private JLabel Connection;
     private JLabel robotControlLabel;
@@ -44,6 +43,8 @@ public class GuiApp extends JFrame {
         final JMenuBar menuBar = new JMenuBar();
         final MenuFactory menuFactory = getMenuFactory();
         menuBar.add(menuFactory.getHelpMenu(this));
+        menuBar.add(menuFactory.getDataMenu(this));
+        menuBar.add(menuFactory.getAboutMenu(this));
         setJMenuBar(menuBar);
 
     }
@@ -85,9 +86,9 @@ public class GuiApp extends JFrame {
             playerPanel.setBorder(border);
             videoPanel.remove(stream);
             // it s work with robot
-            // playerPanel.play("http://"+client.getName()+":8080/?action=stream");
+            playerPanel.play("http://"+client.getName()+":8080/?action=stream");
             //for test
-            playerPanel.play("http://www.quirksmode.org/html5/videos/big_buck_bunny.mp4");
+            //playerPanel.play("http://www.quirksmode.org/html5/videos/big_buck_bunny.mp4");
 
 
 

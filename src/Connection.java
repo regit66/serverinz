@@ -17,6 +17,7 @@ public class Connection extends Thread {
     private PlayerPanel playerPanel = new PlayerPanel();
     private JRadioButton jRadioButton = new JRadioButton();
     private String command = null;
+    private String batteryLevel;
 
     public Connection(Socket aClientSocket, List<Client> clientList, GuiApp gui, Client cc) {
         this.clientList = clientList;
@@ -24,7 +25,7 @@ public class Connection extends Thread {
         this.client = cc;
         gui.getRobotControlLabel().setVisible(true);
         gui.getConnection().setVisible(false);
-        gui.changeConnectionPanel(clientInfoLabel, jRadioButton, cc, clientList, playerPanel);
+        gui.changeConnectionPanel(clientInfoLabel,   jRadioButton, cc, clientList, playerPanel);
         gui.repaint();
 
         //debug
@@ -71,6 +72,7 @@ public class Connection extends Thread {
             redDataText = new String(redData, "UTF-8"); // assumption that client sends data UTF-8 encoded
             System.out.println("Client " + clientSocket.getInetAddress().getHostName() + " : " + clientSocket.getPort() + ": " + redDataText);
             clientData.append(redDataText);
+            batteryLevel=redDataText;
 
         } catch (IOException | NegativeArraySizeException e) {
             System.out.println("error");
@@ -143,6 +145,7 @@ public class Connection extends Thread {
      */
     private void waitForArgument() {
         command = null;
+
         gui.getButtonUp().addActionListener(e -> setCommand("up"));
         gui.getButtonDown().addActionListener(e -> setCommand("down"));
         gui.getLeftButton().addActionListener(e -> setCommand("left"));
@@ -199,10 +202,11 @@ public class Connection extends Thread {
             }
 
             if (command.equals("file")) {
-                getFile();
+                getFile(clientSocket.getInetAddress().getHostName());
             }
 
             readFromClient(client);
+            clientInfoLabel.setText("battery: "+ batteryLevel+ "%");
             playerPanel.scanQR();
 
         }
@@ -231,11 +235,12 @@ public class Connection extends Thread {
     /**
      * Get file from client
      */
-    private void getFile() {
+    private void getFile(String ClientIP) {
         System.out.println("waiting for file");
-
+        File file = new File(ClientIP+"sensors.csv");
         try {
-            output = new FileOutputStream("test.txt");
+
+            output = new FileOutputStream(file);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -245,9 +250,10 @@ public class Connection extends Thread {
         try {
             if ((count = input.read(bytes)) > 0) {
                 output.write(bytes, 0, count);
+
                 System.out.println("Send file completed");
                 //   input.close();
-                // output.close();
+                 output.close();
             }
 
         } catch (EOFException e) {
