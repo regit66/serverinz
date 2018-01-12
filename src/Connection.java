@@ -18,7 +18,6 @@ public class Connection extends Thread {
     private JRadioButton jRadioButton = new JRadioButton();
     private String command = null;
     private String batteryLevel;
-    private DataMenu dataMenu;
 
     public Connection(Socket aClientSocket, List<Client> clientList, GuiApp gui, Client cc) {
         this.clientList = clientList;
@@ -155,9 +154,13 @@ public class Connection extends Thread {
         gui.getSpeedController().addChangeListener(e -> setCommand("speed"));
         gui.getGetDataButton().addActionListener(e -> setCommand("file"));
         gui.getDiodeSlider().addChangeListener(e -> setCommand("diode"));
-        //dataMenu.getUserGuideItem2().addActionListener(e -> setCommand("file"));
-        //dataMenu.getUserGuideItem3().addActionListener(e -> setCommand("file"));
-        //dataMenu.getUserGuideItem4().addActionListener(e -> setCommand("file"));
+        gui.getMenuFactory().getDataMenu().getUserGuideItem1().addActionListener(e -> setCommand("alldata"));
+        gui.getMenuFactory().getDataMenu().getUserGuideItem2().addActionListener(e -> setCommand("ambiant"));
+        gui.getMenuFactory().getDataMenu().getUserGuideItem3().addActionListener(e -> setCommand("acel"));
+        gui.getMenuFactory().getDataMenu().getUserGuideItem4().addActionListener(e -> setCommand("proximity"));
+        gui.getMenuFactory().getDataMenu().getUserGuideItem5().addActionListener(e -> setCommand("ultrasonic"));
+        gui.getMenuFactory().getDataMenu().getUserGuideItem6().addActionListener(e -> setCommand("battery"));
+        gui.getMenuFactory().getDataMenu().getUserGuideItem7().addActionListener(e -> setCommand("motor"));
 
     }
 

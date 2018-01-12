@@ -22,7 +22,6 @@ public class GuiApp extends JFrame  {
     private JSlider diodeSlider;
     private JSpinner spinner1;
     private MenuFactory menuFactory;
-    private int color[] = new int[2];
 
     public JButton getStopButton() {
         return stopButton;
@@ -42,6 +41,7 @@ public class GuiApp extends JFrame  {
         //pack();
 
         setVisible(true);
+
 
     }
 
@@ -149,7 +149,7 @@ public class GuiApp extends JFrame  {
     /**
      * @return the menu factory instance
      */
-    private MenuFactory getMenuFactory() {
+    public MenuFactory getMenuFactory() {
         if (this.menuFactory == null) {
             menuFactory = new MenuFactory();
         }

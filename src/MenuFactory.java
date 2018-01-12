@@ -18,9 +18,14 @@ public class MenuFactory {
         return this.dataMenu;
     }
 
+    public DataMenu getDataMenu() {
+        return dataMenu;
+    }
+
     public AboutMenu getAboutMenu(GuiApp editorFrame) {
         if (this.aboutMenu == null) {
             this.aboutMenu = new AboutMenu(editorFrame);
+
         }
         return this.aboutMenu;
     }
