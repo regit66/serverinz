@@ -18,6 +18,7 @@ public class Connection extends Thread {
     private JRadioButton jRadioButton = new JRadioButton();
     private String command = null;
     private String batteryLevel;
+    private String colors[] = {"off" ,"red","blue","yellow","pink","purple","orange", "green", "white"};
 
     public Connection(Socket aClientSocket, List<Client> clientList, GuiApp gui, Client cc) {
         this.clientList = clientList;
@@ -153,7 +154,10 @@ public class Connection extends Thread {
         gui.getRightButton().addActionListener(e -> setCommand("right"));
         gui.getSpeedController().addChangeListener(e -> setCommand("speed"));
         gui.getGetDataButton().addActionListener(e -> setCommand("file"));
-        gui.getDiodeSlider().addChangeListener(e -> setCommand("diode"));
+        gui.getDiodeSlider().addChangeListener(e -> {
+            gui.getDiodeColorLabel().setText(colors[gui.getDiodeSlider().getValue()]);
+            setCommand("diode");
+        });
         gui.getMenuFactory().getDataMenu().getUserGuideItem1().addActionListener(e -> setCommand("alldata"));
         gui.getMenuFactory().getDataMenu().getUserGuideItem2().addActionListener(e -> setCommand("ambiant"));
         gui.getMenuFactory().getDataMenu().getUserGuideItem3().addActionListener(e -> setCommand("acel"));
@@ -214,22 +218,9 @@ public class Connection extends Thread {
 
             if (command.equals("diode")) {
                 readFromClient(client);
-                if (gui.getDiodeSlider().getValue()==1)
-                    sendToOneClient("red");
-                if (gui.getDiodeSlider().getValue()==2)
-                    sendToOneClient("blue");
-                if (gui.getDiodeSlider().getValue()==3)
-                    sendToOneClient("yellow");
-                if (gui.getDiodeSlider().getValue()==4)
-                    sendToOneClient("pink");
-                if (gui.getDiodeSlider().getValue()==5)
-                    sendToOneClient("purple");
-                if (gui.getDiodeSlider().getValue()==6)
-                    sendToOneClient("orange");
-                if (gui.getDiodeSlider().getValue()==7)
-                    sendToOneClient("green");
-                if (gui.getDiodeSlider().getValue()==8)
-                    sendToOneClient("white");
+
+
+                    sendToOneClient(colors[gui.getDiodeSlider().getValue()]);
 
             }
 

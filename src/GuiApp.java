@@ -21,10 +21,19 @@ public class GuiApp extends JFrame  {
     private JLabel stream;
     private JSlider diodeSlider;
     private JSpinner spinner1;
+    private JLabel diodeColorLabel;
     private MenuFactory menuFactory;
 
     public JButton getStopButton() {
         return stopButton;
+    }
+
+    public JLabel getDiodeColorLabel() {
+        return diodeColorLabel;
+    }
+
+    public void setDiodeColorLabel(JLabel diodeColorLabel) {
+        this.diodeColorLabel = diodeColorLabel;
     }
 
     public void setStopButton(JButton stopButton) {
@@ -38,6 +47,8 @@ public class GuiApp extends JFrame  {
         createMenuBar();
         setContentPane(panelMain);
         IconPanel.setLayout(new BoxLayout(IconPanel, BoxLayout.PAGE_AXIS));
+
+
         //pack();
 
         setVisible(true);
@@ -157,6 +168,7 @@ public class GuiApp extends JFrame  {
     }
 
     public JSlider getDiodeSlider() {
+
         return diodeSlider;
     }
 
@@ -225,7 +237,6 @@ public class GuiApp extends JFrame  {
     public void setRobotControlLabel(JLabel robotControlLabel) {
         this.robotControlLabel = robotControlLabel;
     }
-
 
 
 }
