@@ -3,7 +3,7 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.util.List;
 
-public class GuiApp extends JFrame {
+public class GuiApp extends JFrame  {
 
     private JPanel panelMain;
     private JButton rightButton;
@@ -11,7 +11,6 @@ public class GuiApp extends JFrame {
     private JButton buttonUp;
     private JButton leftButton;
     private JButton buttonDown;
-    private JButton setSpeed;
     private JPanel videoPanel;
     private JButton getDataButton;
     private JPanel IconPanel;
@@ -20,8 +19,18 @@ public class GuiApp extends JFrame {
     private JButton openDataButton;
     private JSlider speedController;
     private JLabel stream;
+    private JSlider diodeSlider;
+    private JSpinner spinner1;
     private MenuFactory menuFactory;
+    private int color[] = new int[2];
 
+    public JButton getStopButton() {
+        return stopButton;
+    }
+
+    public void setStopButton(JButton stopButton) {
+        this.stopButton = stopButton;
+    }
 
     public GuiApp() {
         setDefaultCloseOperation(this.EXIT_ON_CLOSE);
@@ -31,6 +40,7 @@ public class GuiApp extends JFrame {
         setContentPane(panelMain);
         IconPanel.setLayout(new BoxLayout(IconPanel, BoxLayout.PAGE_AXIS));
         //pack();
+
         setVisible(true);
 
     }
@@ -146,13 +156,25 @@ public class GuiApp extends JFrame {
         return this.menuFactory;
     }
 
+    public JSlider getDiodeSlider() {
+        return diodeSlider;
+    }
+
+    public void setDiodeSlider(JSlider diodeSlider) {
+        this.diodeSlider = diodeSlider;
+    }
+
     public JLabel getConnection() {
 
         return Connection;
     }
 
-    public JButton getSetSpeed() {
-        return setSpeed;
+    public JSlider getSpeedController() {
+        return speedController;
+    }
+
+    public void setSpeedController(JSlider speedController) {
+        this.speedController = speedController;
     }
 
     public JButton getGetDataButton() {
@@ -162,7 +184,7 @@ public class GuiApp extends JFrame {
     public int  getSpeed()
     {
 
-        return speedController.getValue();
+        return speedController.getValue()*15;
 
     }
 
@@ -203,5 +225,7 @@ public class GuiApp extends JFrame {
     public void setRobotControlLabel(JLabel robotControlLabel) {
         this.robotControlLabel = robotControlLabel;
     }
+
+
 
 }

@@ -1,9 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
 
 public class DataMenu extends JMenu {
 
@@ -24,101 +19,12 @@ public class DataMenu extends JMenu {
      */
     private void createMenu() {
 
+        this.add(userGuideItem2= new JMenuItem("Ambiant ir sensors"));
+        this.add(userGuideItem3= new JMenuItem("Accel and Gyro sensors"));
+        this.add(userGuideItem4= new JMenuItem("Proximity ir sensors"));
+        this.add(userGuideItem5= new JMenuItem("Ultrasonic sensors"));
+        this.add(userGuideItem6= new JMenuItem("Baterry properties"));
 
-        this.add(userGuideItem= new JMenuItem("Ambiant ir sensors"));
-        userGuideItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (Desktop.isDesktopSupported()) {
-                    try {
-                        File myFile = new File("test.csv");
-                        Desktop.getDesktop().open(myFile);
-                    } catch (IOException ex) {
-                        // no application registered for PDFs
-                    }
-                }
-            }
-
-        });
-
-        this.add(userGuideItem= new JMenuItem("Accel and Gyro sensors"));
-        userGuideItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (Desktop.isDesktopSupported()) {
-                    try {
-                        File myFile = new File("test.csv");
-                        Desktop.getDesktop().open(myFile);
-                    } catch (IOException ex) {
-                        // no application registered for PDFs
-                    }
-                }
-            }
-
-
-        });
-
-        this.add(userGuideItem= new JMenuItem("Accel and Gyro sensors"));
-        userGuideItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (Desktop.isDesktopSupported()) {
-                    try {
-                        File myFile = new File("test.csv");
-                        Desktop.getDesktop().open(myFile);
-                    } catch (IOException ex) {
-                        // no application registered for PDFs
-                    }
-                }
-            }
-
-
-        });
-
-        this.add(userGuideItem= new JMenuItem("Proximity ir sensors"));
-        userGuideItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (Desktop.isDesktopSupported()) {
-                    try {
-                        File myFile = new File("test.csv");
-                        Desktop.getDesktop().open(myFile);
-                    } catch (IOException ex) {
-                        // no application registered for PDFs
-                    }
-                }
-            }
-
-
-        });
-
-        this.add(userGuideItem= new JMenuItem("Ultrasonic sensors"));
-        userGuideItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (Desktop.isDesktopSupported()) {
-                    try {
-                        File myFile = new File("test.csv");
-                        Desktop.getDesktop().open(myFile);
-                    } catch (IOException ex) {
-                        // no application registered for PDFs
-                    }
-                }
-            }
-
-
-        });
-
-        this.add(userGuideItem= new JMenuItem("Baterry properties"));
-        userGuideItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (Desktop.isDesktopSupported()) {
-                    try {
-                        File myFile = new File("test.csv");
-                        Desktop.getDesktop().open(myFile);
-                    } catch (IOException ex) {
-                        // no application registered for PDFs
-                    }
-                }
-            }
-
-
-        });
 
 
 
@@ -128,5 +34,29 @@ public class DataMenu extends JMenu {
      */
     private JFrame mainFrame;
 
-    private JMenuItem userGuideItem;
+    private JMenuItem userGuideItem5, userGuideItem2,userGuideItem3,userGuideItem4,userGuideItem6;
+
+    public JMenuItem getUserGuideItem2() {
+        return userGuideItem2;
+    }
+
+    public void setUserGuideItem2(JMenuItem userGuideItem2) {
+        this.userGuideItem2 = userGuideItem2;
+    }
+
+    public JMenuItem getUserGuideItem3() {
+        return userGuideItem3;
+    }
+
+    public void setUserGuideItem3(JMenuItem userGuideItem3) {
+        this.userGuideItem3 = userGuideItem3;
+    }
+
+    public JMenuItem getUserGuideItem4() {
+        return userGuideItem4;
+    }
+
+    public void setUserGuideItem4(JMenuItem userGuideItem4) {
+        this.userGuideItem4 = userGuideItem4;
+    }
 }

@@ -35,10 +35,8 @@ public class PlayerPanel extends JPanel {
         JPanel controlsPanel = new JPanel();
         JButton pauseButton = new JButton("Pause");
         controlsPanel.add(pauseButton);
-        JButton rewindButton = new JButton("Rewind");
-        controlsPanel.add(rewindButton);
-        JButton skipButton = new JButton("Skip");
-        controlsPanel.add(skipButton);
+        JButton playButton = new JButton("Play");
+        controlsPanel.add(playButton);
         this.add(controlsPanel, BorderLayout.SOUTH);
 
         pauseButton.addActionListener(new ActionListener() {
@@ -47,20 +45,13 @@ public class PlayerPanel extends JPanel {
                 videoCanvas.getMediaPlayer().pause();
             }
         });
-        rewindButton.addActionListener(new ActionListener() {
+        playButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                videoCanvas.getMediaPlayer().skip(-10000);
+                videoCanvas.getMediaPlayer().play();
             }
         });
-        skipButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                videoCanvas.getMediaPlayer().setFullScreen(true);
 
-
-            }
-        });
 
     }
 

@@ -1,13 +1,48 @@
-Proximity Sensors						 
-back left      :;   17;  
-left           :;   21						 
-front left     :;   16;  
-front          :;   24						 
-front right    :;   21;  
-right          :;   10						 
-back right     :;   24;  
-back           :;   31						 
-ground left    :;  955;  
-gnd front left :;  956						 
-gnd front right:;  952;  
-ground right   :;  959
+Proximity Sensors			
+back left :;    6; 
+left :;   16 
+front left :;    4; 
+front :;   31 
+front right :;   23; 
+right :;   14 
+back right :;   32; 
+back :;  128 
+ground left :;  954; 
+gnd front left :;  956 
+gnd front right:;  950; 
+ground right :;  959
+
+
+US sensors : distance [cm]							  
+left 90:;   30;
+left 45:;   45;							  
+front:; 1000;
+right 45:; 1000;
+right 90:;   38;
+
+Ambiant Sensors						 
+back left      :; 0000;  
+left           :; 0000						 
+front left     :; 0000;  
+front          :;0001						 
+front right    :; 0000;  
+right          :; 0000						 
+back right     :; 0000;  
+back           :; 0000						 
+ground left    :; 0000;  
+gnd front left :; 0000						 
+gnd front right:; 0000;  
+ground right   :; 0000
+
+motor speed and positionmotors speed [mm/s (pulse/)]:; left:;     0.0;  (    0)  | right:;     0.0; (    0)
+motors position [mm (pulse)]:; left:; 21149.1; (3118875) | right:; 21018.0; (3099546)
+
+Battery:
+  status (DS2781)   :;  0xf
+  remaining capacity:;   621 mAh
+  remaining capacity:;    18 %
+  current           :; -825 mA
+  average current   :;  -933 mA
+  temperature       :;  41.1 C 
+  voltage           :;  7320 mV 
+  charger           :;  unplugged

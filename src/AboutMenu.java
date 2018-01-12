@@ -1,9 +1,6 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
 
 public class AboutMenu extends JMenu {
 
@@ -28,14 +25,8 @@ public class AboutMenu extends JMenu {
         this.add(userGuideItem= new JMenuItem("Informations"));
         userGuideItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (Desktop.isDesktopSupported()) {
-                    try {
-                        File myFile = new File("manual/guide.pdf");
-                        Desktop.getDesktop().open(myFile);
-                    } catch (IOException ex) {
-                        // no application registered for PDFs
-                    }
-                }
+                ShortcutDialog dialog = new ShortcutDialog(mainFrame);
+                dialog.setVisible(true);
             }
 
         });

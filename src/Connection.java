@@ -18,6 +18,7 @@ public class Connection extends Thread {
     private JRadioButton jRadioButton = new JRadioButton();
     private String command = null;
     private String batteryLevel;
+    private DataMenu dataMenu;
 
     public Connection(Socket aClientSocket, List<Client> clientList, GuiApp gui, Client cc) {
         this.clientList = clientList;
@@ -146,12 +147,18 @@ public class Connection extends Thread {
     private void waitForArgument() {
         command = null;
 
+        gui.getStopButton().addActionListener(e -> setCommand("stop"));
         gui.getButtonUp().addActionListener(e -> setCommand("up"));
         gui.getButtonDown().addActionListener(e -> setCommand("down"));
         gui.getLeftButton().addActionListener(e -> setCommand("left"));
         gui.getRightButton().addActionListener(e -> setCommand("right"));
-        gui.getSetSpeed().addActionListener(e -> setCommand("speed"));
+        gui.getSpeedController().addChangeListener(e -> setCommand("speed"));
         gui.getGetDataButton().addActionListener(e -> setCommand("file"));
+        gui.getDiodeSlider().addChangeListener(e -> setCommand("diode"));
+        //dataMenu.getUserGuideItem2().addActionListener(e -> setCommand("file"));
+        //dataMenu.getUserGuideItem3().addActionListener(e -> setCommand("file"));
+        //dataMenu.getUserGuideItem4().addActionListener(e -> setCommand("file"));
+
     }
 
     /**
@@ -195,9 +202,31 @@ public class Connection extends Thread {
             sendToOneClient(command);
 
             if (command.equals("speed")) {
+
                 setCommand(Integer.toString(gui.getSpeed()));
                 readFromClient(client);
                 sendToOneClient(command);
+
+            }
+
+            if (command.equals("diode")) {
+                readFromClient(client);
+                if (gui.getDiodeSlider().getValue()==1)
+                    sendToOneClient("red");
+                if (gui.getDiodeSlider().getValue()==2)
+                    sendToOneClient("blue");
+                if (gui.getDiodeSlider().getValue()==3)
+                    sendToOneClient("yellow");
+                if (gui.getDiodeSlider().getValue()==4)
+                    sendToOneClient("pink");
+                if (gui.getDiodeSlider().getValue()==5)
+                    sendToOneClient("purple");
+                if (gui.getDiodeSlider().getValue()==6)
+                    sendToOneClient("orange");
+                if (gui.getDiodeSlider().getValue()==7)
+                    sendToOneClient("green");
+                if (gui.getDiodeSlider().getValue()==8)
+                    sendToOneClient("white");
 
             }
 
@@ -239,19 +268,22 @@ public class Connection extends Thread {
         System.out.println("waiting for file");
         File file = new File(ClientIP+"sensors.csv");
         try {
-
             output = new FileOutputStream(file);
-        } catch (FileNotFoundException e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "File is used");
+            System.out.println("file is use");
+
+            return;
         }
         byte[] bytes = new byte[16 * 1024];
-
         int count;
         try {
             if ((count = input.read(bytes)) > 0) {
                 output.write(bytes, 0, count);
 
-                System.out.println("Send file completed");
+                System.out.println("read file completed");
                 //   input.close();
                  output.close();
             }
