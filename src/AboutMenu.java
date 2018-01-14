@@ -22,7 +22,7 @@ public class AboutMenu extends JMenu {
     private void createMenu() {
 
 
-        this.add(userGuideItem= new JMenuItem("Informations"));
+        this.add(userGuideItem = new JMenuItem("Informations"));
         userGuideItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 ShortcutDialog dialog = new ShortcutDialog(mainFrame);
@@ -32,9 +32,8 @@ public class AboutMenu extends JMenu {
         });
 
 
-
-
     }
+
     /**
      * Main app frame where this menu is attached to
      */

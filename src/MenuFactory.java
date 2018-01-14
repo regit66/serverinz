@@ -1,19 +1,19 @@
 public class MenuFactory {
 
     /**
-     * @param editorFrame
+     * @param app
      * @return help menu
      */
-     public HelpMenu getHelpMenu(GuiApp editorFrame) {
+    public HelpMenu getHelpMenu(GuiApp app) {
         if (this.helpMenu == null) {
-            this.helpMenu = new HelpMenu(editorFrame);
+            this.helpMenu = new HelpMenu(app);
         }
         return this.helpMenu;
     }
 
-    public DataMenu getDataMenu(GuiApp editorFrame) {
+    public DataMenu getDataMenu(GuiApp app) {
         if (this.dataMenu == null) {
-            this.dataMenu = new DataMenu(editorFrame);
+            this.dataMenu = new DataMenu(app);
         }
         return this.dataMenu;
     }
@@ -22,14 +22,13 @@ public class MenuFactory {
         return dataMenu;
     }
 
-    public AboutMenu getAboutMenu(GuiApp editorFrame) {
+    public AboutMenu getAboutMenu(GuiApp app) {
         if (this.aboutMenu == null) {
-            this.aboutMenu = new AboutMenu(editorFrame);
+            this.aboutMenu = new AboutMenu(app);
 
         }
         return this.aboutMenu;
     }
-
 
 
     private HelpMenu helpMenu;

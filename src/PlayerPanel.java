@@ -10,8 +10,6 @@ import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -19,16 +17,16 @@ public class PlayerPanel extends JPanel {
 
     private File vlcInstallPath = new File("D:\\Program Files\\VideoLAN\\VLC");
     private EmbeddedMediaPlayer player;
-    com.google.zxing.Result result = null;
-    BufferedImage image = null;
+    private com.google.zxing.Result result = null;
+    private BufferedImage image = null;
 
     public PlayerPanel() {
         NativeLibrary.addSearchPath("libvlc", vlcInstallPath.getAbsolutePath());
         EmbeddedMediaPlayerComponent videoCanvas = new EmbeddedMediaPlayerComponent();
-        this.setSize(new Dimension(200,200));
-        this.setMaximumSize(new Dimension(200,200));
-        this.setPreferredSize(new Dimension(200,200));
-        this.setMinimumSize(new Dimension(200,200));
+        this.setSize(new Dimension(200, 200));
+        this.setMaximumSize(new Dimension(200, 200));
+        this.setPreferredSize(new Dimension(200, 200));
+        this.setMinimumSize(new Dimension(200, 200));
         this.setLayout(new BorderLayout());
         this.add(videoCanvas, BorderLayout.CENTER);
         this.player = videoCanvas.getMediaPlayer();
@@ -39,18 +37,8 @@ public class PlayerPanel extends JPanel {
         controlsPanel.add(playButton);
         this.add(controlsPanel, BorderLayout.SOUTH);
 
-        pauseButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                videoCanvas.getMediaPlayer().pause();
-            }
-        });
-        playButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                videoCanvas.getMediaPlayer().play();
-            }
-        });
+        pauseButton.addActionListener(e -> videoCanvas.getMediaPlayer().pause());
+        playButton.addActionListener(e -> videoCanvas.getMediaPlayer().play());
 
 
     }
@@ -81,7 +69,6 @@ public class PlayerPanel extends JPanel {
         */
 
 
-
     }
 
     /**
@@ -99,7 +86,7 @@ public class PlayerPanel extends JPanel {
     /**
      * Disable player
      */
-    public void stop(){
+    public void stop() {
 
         player.stop();
 

@@ -2,18 +2,18 @@ public class Client {
 
 
     private String ip;
-    private int clientNr=0;
+    private int clientNr = 0;
     private int port;
     private String name;
-    private boolean connected=false;
+    private boolean connected = false;
 
 
     public Client(String ip, int port, String name, int clientNr, boolean connected) {
         this.ip = ip;
-        this.clientNr = clientNr+1;
+        this.clientNr = clientNr + 1;
         this.port = port;
         this.name = name;
-        this.connected=connected;
+        this.connected = connected;
     }
 
     @Override
@@ -24,7 +24,7 @@ public class Client {
                 ", port=" + port +
                 ", name='" + name + '\'' +
                 ", connected=" + connected +
-                '}'+ "\n";
+                '}' + "\n";
     }
 
     public int getClientNr() {

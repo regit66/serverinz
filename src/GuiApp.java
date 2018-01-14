@@ -12,20 +12,26 @@ public class GuiApp extends JFrame  {
     private JButton leftButton;
     private JButton buttonDown;
     private JPanel videoPanel;
-    private JButton getDataButton;
+    private JButton loadScriptButton;
     private JPanel IconPanel;
     private JLabel Connection;
     private JLabel robotControlLabel;
-    private JButton openDataButton;
+    private JButton runScriptButton;
     private JSlider speedController;
     private JLabel stream;
     private JSlider diodeSlider;
-    private JSpinner spinner1;
+    private JSpinner diodeSelectorSpiner;
     private JLabel diodeColorLabel;
+    private JLabel speedInfoLabel;
     private MenuFactory menuFactory;
+    private String colorsName[] = {"off" ,"red","blue","yellow","pink","purple","orange", "green", "white"};
 
     public JButton getStopButton() {
         return stopButton;
+    }
+
+    public JButton getRunScriptButton() {
+        return runScriptButton;
     }
 
     public JLabel getDiodeColorLabel() {
@@ -40,6 +46,23 @@ public class GuiApp extends JFrame  {
         this.stopButton = stopButton;
     }
 
+    public JLabel getSpeedInfoLabel() {
+        return speedInfoLabel;
+    }
+
+    public void setSpeedInfoLabel(JLabel speedInfoLabel) {
+        this.speedInfoLabel = speedInfoLabel;
+    }
+
+    public JSpinner getDiodeSelectorSpiner() {
+
+        return diodeSelectorSpiner;
+    }
+
+    public void setDiodeSelectorSpiner(JSpinner diodeSelectorSpiner) {
+        this.diodeSelectorSpiner = diodeSelectorSpiner;
+    }
+
     public GuiApp() {
         setDefaultCloseOperation(this.EXIT_ON_CLOSE);
         setInitialSize();
@@ -47,6 +70,10 @@ public class GuiApp extends JFrame  {
         createMenuBar();
         setContentPane(panelMain);
         IconPanel.setLayout(new BoxLayout(IconPanel, BoxLayout.PAGE_AXIS));
+        SpinnerModel sm = new SpinnerNumberModel(1, 1, 3, 1);
+        diodeColorLabel.setText(colorsName[getDiodeSlider().getValue()]);
+        speedInfoLabel.setText(getSpeedController().getValue()+"%");
+        diodeSelectorSpiner.setModel(sm);
 
 
         //pack();
@@ -90,16 +117,16 @@ public class GuiApp extends JFrame  {
     /**
      * Creates connected robot gui
      */
-    public void changeConnectionPanel(JLabel icon, JRadioButton jRadioButton, Client client, List<Client> clientList,PlayerPanel playerPanel) {
+    public void changeConnectionPanel(JLabel batteryLevel, JRadioButton jRadioButton, Client client, List<Client> clientList, PlayerPanel playerPanel) {
 
         if (client.isConnected()) {
 
             ImageIcon imgThisImg = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("image/connected-256.png")));
             IconPanel.add(jRadioButton);
-            IconPanel.add(icon);
+            IconPanel.add(batteryLevel);
             jRadioButton.setText("Robot: " + client.getIp());
             jRadioButton.setSelected(true);
-            icon.setIcon(imgThisImg);
+            batteryLevel.setIcon(imgThisImg);
             setVideoPanelLayout(clientList);
 
             videoPanel.add(playerPanel);
@@ -118,7 +145,7 @@ public class GuiApp extends JFrame  {
             playerPanel.stop();
             videoPanel.remove(playerPanel);
             jRadioButton.setVisible(false);
-            icon.setVisible(false);
+            batteryLevel.setVisible(false);
             IconPanel.repaint();
             videoPanel.repaint();
 
@@ -189,8 +216,8 @@ public class GuiApp extends JFrame  {
         this.speedController = speedController;
     }
 
-    public JButton getGetDataButton() {
-        return getDataButton;
+    public JButton getLoadScriptButton() {
+        return loadScriptButton;
     }
 
     public int  getSpeed()

@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -25,25 +23,21 @@ public class HelpMenu extends JMenu {
     private void createMenu() {
 
 
-        this.add(userGuideItem= new JMenuItem("Guide"));
-        userGuideItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (Desktop.isDesktopSupported()) {
-                    try {
-                        File myFile = new File("./manual/guide.pdf");
-                        Desktop.getDesktop().open(myFile);
-                    } catch (IOException ex) {
-                        // no application registered for PDFs
-                    }
+        this.add(userGuideItem = new JMenuItem("Guide"));
+        userGuideItem.addActionListener(e -> {
+            if (Desktop.isDesktopSupported()) {
+                try {
+                    File myFile = new File("./manual/guide.pdf");
+                    Desktop.getDesktop().open(myFile);
+                } catch (IOException ex) {
+                    // no application registered for PDFs
                 }
             }
-
         });
 
 
-
-
     }
+
     /**
      * Main app frame where this menu is attached to
      */

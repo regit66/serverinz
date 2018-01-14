@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.net.Socket;
 import java.util.Iterator;
@@ -18,7 +19,10 @@ public class Connection extends Thread {
     private JRadioButton jRadioButton = new JRadioButton();
     private String command = null;
     private String batteryLevel;
-    private String colors[] = {"off" ,"red","blue","yellow","pink","purple","orange", "green", "white"};
+    private String colorsName[] = {"off", "red", "blue", "yellow", "pink", "purple", "orange", "green", "white"};
+
+    private Color colors[] = {Color.black, Color.red, Color.blue, Color.yellow, Color.pink, Color.magenta, Color.orange, Color.green, Color.white};
+
 
     public Connection(Socket aClientSocket, List<Client> clientList, GuiApp gui, Client cc) {
         this.clientList = clientList;
@@ -26,8 +30,11 @@ public class Connection extends Thread {
         this.client = cc;
         gui.getRobotControlLabel().setVisible(true);
         gui.getConnection().setVisible(false);
-        gui.changeConnectionPanel(clientInfoLabel,   jRadioButton, cc, clientList, playerPanel);
+        gui.changeConnectionPanel(clientInfoLabel, jRadioButton, cc, clientList, playerPanel);
         gui.repaint();
+        ;
+
+        //Initialize the values of the array
 
         //debug
         String listString = "";
@@ -73,7 +80,7 @@ public class Connection extends Thread {
             redDataText = new String(redData, "UTF-8"); // assumption that client sends data UTF-8 encoded
             System.out.println("Client " + clientSocket.getInetAddress().getHostName() + " : " + clientSocket.getPort() + ": " + redDataText);
             clientData.append(redDataText);
-            batteryLevel=redDataText;
+            batteryLevel = redDataText;
 
         } catch (IOException | NegativeArraySizeException e) {
             System.out.println("error");
@@ -152,10 +159,14 @@ public class Connection extends Thread {
         gui.getButtonDown().addActionListener(e -> setCommand("down"));
         gui.getLeftButton().addActionListener(e -> setCommand("left"));
         gui.getRightButton().addActionListener(e -> setCommand("right"));
-        gui.getSpeedController().addChangeListener(e -> setCommand("speed"));
-        gui.getGetDataButton().addActionListener(e -> setCommand("file"));
+        gui.getSpeedController().addChangeListener(e -> {
+            gui.getSpeedInfoLabel().setText(gui.getSpeedController().getValue() + "%");
+            setCommand("speed");
+        });
+        gui.getLoadScriptButton().addActionListener(e -> setCommand("loadscript"));
+        gui.getRunScriptButton().addActionListener(e -> setCommand("runscript"));
         gui.getDiodeSlider().addChangeListener(e -> {
-            gui.getDiodeColorLabel().setText(colors[gui.getDiodeSlider().getValue()]);
+            gui.getDiodeColorLabel().setText(colorsName[gui.getDiodeSlider().getValue()]);
             setCommand("diode");
         });
         gui.getMenuFactory().getDataMenu().getUserGuideItem1().addActionListener(e -> setCommand("alldata"));
@@ -164,7 +175,7 @@ public class Connection extends Thread {
         gui.getMenuFactory().getDataMenu().getUserGuideItem4().addActionListener(e -> setCommand("proximity"));
         gui.getMenuFactory().getDataMenu().getUserGuideItem5().addActionListener(e -> setCommand("ultrasonic"));
         gui.getMenuFactory().getDataMenu().getUserGuideItem6().addActionListener(e -> setCommand("battery"));
-        gui.getMenuFactory().getDataMenu().getUserGuideItem7().addActionListener(e -> setCommand("motor"));
+        gui.getMenuFactory().getDataMenu().getUserGuideItem7().addActionListener(e -> setCommand("line"));
 
     }
 
@@ -219,17 +230,41 @@ public class Connection extends Thread {
             if (command.equals("diode")) {
                 readFromClient(client);
 
-
-                    sendToOneClient(colors[gui.getDiodeSlider().getValue()]);
+                sendToOneClient(gui.getDiodeSelectorSpiner().getValue().toString());
+                readFromClient(client);
+                sendToOneClient(colorsName[gui.getDiodeSlider().getValue()]);
 
             }
 
-            if (command.equals("file")) {
+            if (command.equals("loadscript")) {
+                ///send file
+                try {
+                    // DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+                    File file = new File("ext.txt");
+                    FileInputStream fis = new FileInputStream(file);
+                    byte[] buffer = new byte[256];
+
+                    // OutputStream os = socket.getOutputStream();
+                    int len;
+                    while ((len = fis.read(buffer)) > 0) {
+                        output.write(buffer, 0, len);
+                    }
+
+                    fis.close();
+                    //fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (command.equals("alldata")) {
                 getFile(clientSocket.getInetAddress().getHostName());
             }
 
             readFromClient(client);
-            clientInfoLabel.setText("battery: "+ batteryLevel+ "%");
+            clientInfoLabel.setText("battery: " + batteryLevel + "% " + "  color : " + colorsName[gui.getDiodeSlider().getValue()]);
+            clientInfoLabel.setOpaque(true);
+            clientInfoLabel.setBackground(colors[gui.getDiodeSlider().getValue()]);
             playerPanel.scanQR();
 
         }
@@ -260,7 +295,7 @@ public class Connection extends Thread {
      */
     private void getFile(String ClientIP) {
         System.out.println("waiting for file");
-        File file = new File(ClientIP+"sensors.csv");
+        File file = new File(ClientIP + "sensors.csv");
         try {
             output = new FileOutputStream(file);
 
@@ -279,7 +314,8 @@ public class Connection extends Thread {
 
                 System.out.println("read file completed");
                 //   input.close();
-                 output.close();
+                
+                output.close();
             }
 
         } catch (EOFException e) {

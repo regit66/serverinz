@@ -11,7 +11,7 @@ import java.util.List;
 public class TCPServer {
 
     public static void main(String args[]) {
-        List<Client> clientList = new ArrayList<Client>();
+        List<Client> clientList = new ArrayList<>();
         GuiApp gui = new GuiApp();
 
         try {
