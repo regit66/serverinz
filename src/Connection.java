@@ -237,10 +237,16 @@ public class Connection extends Thread {
             }
 
             if (command.equals("loadscript")) {
+
                 ///send file
+                FileDialog dialog = new FileDialog((Frame)null, "Select File to Open");
+                dialog.setMode(FileDialog.LOAD);
+                dialog.setVisible(true);
+                String file = dialog.getFile();
+                System.out.println(file + " chosen.");
                 try {
                     // DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
-                    File file = new File("ext.txt");
+                  //  File file = new File("ext.txt");
                     FileInputStream fis = new FileInputStream(file);
                     byte[] buffer = new byte[256];
 
@@ -314,7 +320,7 @@ public class Connection extends Thread {
 
                 System.out.println("read file completed");
                 //   input.close();
-                
+
                 output.close();
             }
 
