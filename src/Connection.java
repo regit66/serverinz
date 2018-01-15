@@ -242,8 +242,12 @@ public class Connection extends Thread {
                 FileDialog dialog = new FileDialog((Frame)null, "Select File to Open");
                 dialog.setMode(FileDialog.LOAD);
                 dialog.setVisible(true);
-                String file = dialog.getFile();
-                System.out.println(file + " chosen.");
+                String file = dialog.getDirectory()+dialog.getFile();
+                System.out.println(dialog.getDirectory()+file + " chosen.");
+                if (dialog.getFile()==null)
+                {
+                    file="script.sh";
+                }
                 try {
                     // DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
                   //  File file = new File("ext.txt");
