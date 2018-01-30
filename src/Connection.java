@@ -312,8 +312,6 @@ public class Connection extends Thread {
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "File is used");
-            System.out.println("file is use");
-
             return;
         }
         byte[] bytes = new byte[16 * 1024];

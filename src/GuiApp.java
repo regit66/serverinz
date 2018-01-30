@@ -1,9 +1,11 @@
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.List;
 
-public class GuiApp extends JFrame  {
+public class GuiApp extends JFrame implements KeyListener {
 
     private JPanel panelMain;
     private JButton rightButton;
@@ -74,6 +76,10 @@ public class GuiApp extends JFrame  {
         diodeColorLabel.setText(colorsName[getDiodeSlider().getValue()]);
         speedInfoLabel.setText(getSpeedController().getValue()+"%");
         diodeSelectorSpiner.setModel(sm);
+
+        addKeyListener(this);
+        setFocusable(true);
+        setFocusTraversalKeysEnabled(false);
 
 
         //pack();
@@ -266,4 +272,44 @@ public class GuiApp extends JFrame  {
     }
 
 
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+    boolean pressed = false;
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+        int keyCode = e.getKeyCode();
+
+        if (!pressed) {
+            pressed = true;
+
+            if (e.getKeyCode() == KeyEvent.VK_UP)
+                buttonUp.doClick();
+            if (e.getKeyCode() == KeyEvent.VK_LEFT)
+                leftButton.doClick();
+            if (e.getKeyCode() == KeyEvent.VK_RIGHT)
+                rightButton.doClick();
+            if (e.getKeyCode() == KeyEvent.VK_DOWN)
+                buttonDown.doClick();
+            if (e.getKeyCode() == KeyEvent.VK_SPACE)
+                stopButton.doClick();
+        }
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        pressed = false;
+        if(e.getKeyCode()== KeyEvent.VK_UP)
+            stopButton.doClick();
+        if(e.getKeyCode()== KeyEvent.VK_LEFT)
+            stopButton.doClick();
+        if(e.getKeyCode()== KeyEvent.VK_RIGHT)
+            stopButton.doClick();
+        if(e.getKeyCode()== KeyEvent.VK_DOWN)
+            stopButton.doClick();
+
+    }
 }
