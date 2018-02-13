@@ -21,7 +21,7 @@ public class Connection extends Thread {
     private String batteryLevel;
     private String colorsName[] = {"off", "red", "blue", "yellow", "pink", "purple", "orange", "green", "white"};
 
-    private Color colors[] = {Color.black, Color.red, Color.blue, Color.yellow, Color.pink, Color.magenta, Color.orange, Color.green, Color.white};
+    private Color colors[] = {new Color(Color.TRANSLUCENT,Color.TRANSLUCENT,Color.TRANSLUCENT,Color.TRANSLUCENT ), Color.red, Color.cyan, Color.yellow, Color.pink, Color.magenta, Color.orange, Color.green, Color.white};
 
 
     public Connection(Socket aClientSocket, List<Client> clientList, GuiApp gui, Client cc) {
@@ -249,12 +249,9 @@ public class Connection extends Thread {
                     file="script.sh";
                 }
                 try {
-                    // DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
-                  //  File file = new File("ext.txt");
+
                     FileInputStream fis = new FileInputStream(file);
                     byte[] buffer = new byte[256];
-
-                    // OutputStream os = socket.getOutputStream();
                     int len;
                     while ((len = fis.read(buffer)) > 0) {
                         output.write(buffer, 0, len);

@@ -3,10 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/serverinz_jar</output-path>
     <root id="archive" name="serverinz.jar">
       <element id="module-output" name="serverinz" />
-      <element id="library" level="project" name="vlcj-3.0.1" />
-      <element id="library" level="project" name="zxing-2.1" />
-      <element id="library" level="project" name="zxing-javase" />
-      <element id="library" level="project" name="jna-4.5.0" />
+      <element id="library" level="module" name="JUnit4" module-name="serverinz" />
     </root>
   </artifact>
 </component>

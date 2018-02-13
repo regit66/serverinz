@@ -16,11 +16,13 @@ import java.io.File;
 public class PlayerPanel extends JPanel {
 
     private File vlcInstallPath = new File("D:\\Program Files\\VideoLAN\\VLC");
+
     private EmbeddedMediaPlayer player;
     private com.google.zxing.Result result = null;
     private BufferedImage image = null;
 
     public PlayerPanel() {
+
         NativeLibrary.addSearchPath("libvlc", vlcInstallPath.getAbsolutePath());
         EmbeddedMediaPlayerComponent videoCanvas = new EmbeddedMediaPlayerComponent();
         this.setSize(new Dimension(200, 200));
@@ -56,6 +58,7 @@ public class PlayerPanel extends JPanel {
             // fall thru, it means there is no QR code in image
         }
         if (result != null) {
+            JOptionPane.showMessageDialog(null, "QR code data is: " + result.getText());
             System.out.println("QR code data is: " + result.getText());
         }
         //for test only
