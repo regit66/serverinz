@@ -166,11 +166,19 @@
   <!-- Project Libraries -->
   
   <path id="library.jna-4.5.0.classpath">
-    <pathelement location="${basedir}/jna-4.5.0.jar"/>
+    <pathelement location="${basedir}/libs/jna-4.5.0.jar"/>
   </path>
   
   <path id="library.vlcj-3.0.1.classpath">
-    <pathelement location="${basedir}/vlcj-3.0.1.jar"/>
+    <pathelement location="${basedir}/libs/vlcj-3.0.1.jar"/>
+  </path>
+  
+  <path id="library.zxing-2.1.classpath">
+    <pathelement location="${basedir}/libs/zxing-2.1.jar"/>
+  </path>
+  
+  <path id="library.zxing-javase.classpath">
+    <pathelement location="${basedir}/libs/zxing-javase.jar"/>
   </path>
   <!-- Register Custom Compiler Taskdefs -->
   <property name="javac2.home" value="${idea.home}/lib"/>
@@ -209,8 +217,12 @@
     <mkdir dir="${artifact.temp.output.serverinz:jar}"/>
     <jar destfile="${temp.jar.path.serverinz.jar}" duplicate="preserve" filesetmanifest="mergewithoutmain">
       <zipfileset dir="${serverinz.output.dir}"/>
-      <zipfileset file="${basedir}/jna-4.5.0.jar"/>
-      <zipfileset file="${basedir}/vlcj-3.0.1.jar"/>
+      <zipfileset file="${idea.home}/lib/junit-4.12.jar"/>
+      <zipfileset file="${idea.home}/lib/hamcrest-core-1.3.jar"/>
+      <zipfileset file="${basedir}/libs/zxing-javase.jar"/>
+      <zipfileset file="${basedir}/libs/zxing-2.1.jar"/>
+      <zipfileset file="${basedir}/libs/vlcj-3.0.1.jar"/>
+      <zipfileset file="${basedir}/libs/jna-4.5.0.jar"/>
     </jar>
     <copy file="${temp.jar.path.serverinz.jar}" tofile="${artifact.temp.output.serverinz:jar}/serverinz.jar"/>
   </target>

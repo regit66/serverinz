@@ -17,36 +17,44 @@
   
   <path id="serverinz.module.production.classpath">
     <path refid="${module.jdk.classpath.serverinz}"/>
-    <pathelement location="${basedir}/../../../../WINDOWS/system32/vlcj-3.0.1.jar"/>
-    <pathelement location="${basedir}/../../../../WINDOWS/system32/jna-3.1.0.jar"/>
+    <pathelement location="${idea.home}/lib/hamcrest-core-1.3.jar"/>
+    <pathelement location="${idea.home}/lib/junit-4.12.jar"/>
     <path refid="library.jna-4.5.0.classpath"/>
     <path refid="library.vlcj-3.0.1.classpath"/>
+    <path refid="library.zxing-2.1.classpath"/>
+    <path refid="library.zxing-javase.classpath"/>
   </path>
   
   <path id="serverinz.runtime.production.module.classpath">
     <pathelement location="${serverinz.output.dir}"/>
-    <pathelement location="${basedir}/../../../../WINDOWS/system32/vlcj-3.0.1.jar"/>
-    <pathelement location="${basedir}/../../../../WINDOWS/system32/jna-3.1.0.jar"/>
+    <pathelement location="${idea.home}/lib/hamcrest-core-1.3.jar"/>
+    <pathelement location="${idea.home}/lib/junit-4.12.jar"/>
     <path refid="library.jna-4.5.0.classpath"/>
     <path refid="library.vlcj-3.0.1.classpath"/>
+    <path refid="library.zxing-2.1.classpath"/>
+    <path refid="library.zxing-javase.classpath"/>
   </path>
   
   <path id="serverinz.module.classpath">
     <path refid="${module.jdk.classpath.serverinz}"/>
     <pathelement location="${serverinz.output.dir}"/>
-    <pathelement location="${basedir}/../../../../WINDOWS/system32/vlcj-3.0.1.jar"/>
-    <pathelement location="${basedir}/../../../../WINDOWS/system32/jna-3.1.0.jar"/>
+    <pathelement location="${idea.home}/lib/hamcrest-core-1.3.jar"/>
+    <pathelement location="${idea.home}/lib/junit-4.12.jar"/>
     <path refid="library.jna-4.5.0.classpath"/>
     <path refid="library.vlcj-3.0.1.classpath"/>
+    <path refid="library.zxing-2.1.classpath"/>
+    <path refid="library.zxing-javase.classpath"/>
   </path>
   
   <path id="serverinz.runtime.module.classpath">
     <pathelement location="${serverinz.testoutput.dir}"/>
     <pathelement location="${serverinz.output.dir}"/>
-    <pathelement location="${basedir}/../../../../WINDOWS/system32/vlcj-3.0.1.jar"/>
-    <pathelement location="${basedir}/../../../../WINDOWS/system32/jna-3.1.0.jar"/>
+    <pathelement location="${idea.home}/lib/hamcrest-core-1.3.jar"/>
+    <pathelement location="${idea.home}/lib/junit-4.12.jar"/>
     <path refid="library.jna-4.5.0.classpath"/>
     <path refid="library.vlcj-3.0.1.classpath"/>
+    <path refid="library.zxing-2.1.classpath"/>
+    <path refid="library.zxing-javase.classpath"/>
   </path>
   
   
@@ -61,6 +69,12 @@
   <path id="serverinz.module.sourcepath">
     <dirset dir="${module.serverinz.basedir}">
       <include name="src"/>
+    </dirset>
+  </path>
+  
+  <path id="serverinz.module.test.sourcepath">
+    <dirset dir="${module.serverinz.basedir}">
+      <include name="src/test"/>
     </dirset>
   </path>
   
@@ -85,7 +99,23 @@
     </copy>
   </target>
   
-  <target name="compile.module.serverinz.tests" depends="register.custom.compilers,compile.module.serverinz.production" description="compile module serverinz; test classes" unless="skip.tests"/>
+  <target name="compile.module.serverinz.tests" depends="register.custom.compilers,compile.module.serverinz.production" description="compile module serverinz; test classes" unless="skip.tests">
+    <mkdir dir="${serverinz.testoutput.dir}"/>
+    <javac2 destdir="${serverinz.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.serverinz}/javac">
+      <compilerarg line="${compiler.args.serverinz}"/>
+      <bootclasspath refid="serverinz.module.bootclasspath"/>
+      <classpath refid="serverinz.module.classpath"/>
+      <src refid="serverinz.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.serverinz"/>
+    </javac2>
+    
+    <copy todir="${serverinz.testoutput.dir}">
+      <fileset dir="${module.serverinz.basedir}/src/test">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
   
   <target name="clean.module.serverinz" description="cleanup module">
     <delete dir="${serverinz.output.dir}"/>
