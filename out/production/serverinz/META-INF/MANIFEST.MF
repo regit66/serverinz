@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
 Class-Path: ./jna-4.5.0.jar ./vlcj-3.0.1.jar ./zxing-2.1.jar ./zxing-j
  avase.jar
-Main-Class: TCPServer
+Main-Class: connection.TCPServer
 
